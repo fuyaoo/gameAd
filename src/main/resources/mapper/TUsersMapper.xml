@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gameAd.maker.dao.TUsersMapper">
+  <resultMap id="BaseResultMap" type="com.gameAd.maker.bean.TUsers">
+    <id column="UserID" jdbcType="INTEGER" property="userid" />
+    <result column="UserName" jdbcType="NVARCHAR" property="username" />
+    <result column="Pass" jdbcType="NVARCHAR" property="pass" />
+    <result column="TwoPassword" jdbcType="NVARCHAR" property="twopassword" />
+    <result column="NickName" jdbcType="NVARCHAR" property="nickname" />
+    <result column="LogoID" jdbcType="INTEGER" property="logoid" />
+    <result column="LogoFileMD5" jdbcType="NVARCHAR" property="logofilemd5" />
+    <result column="Token" jdbcType="NVARCHAR" property="token" />
+    <result column="OnlineFlag" jdbcType="INTEGER" property="onlineflag" />
+    <result column="Disabled" jdbcType="INTEGER" property="disabled" />
+    <result column="Sex" jdbcType="SMALLINT" property="sex" />
+    <result column="IsRobot" jdbcType="SMALLINT" property="isrobot" />
+    <result column="AgencyID" jdbcType="INTEGER" property="agencyid" />
+    <result column="Salt" jdbcType="VARCHAR" property="salt" />
+    <result column="HeadImgUrl" jdbcType="NVARCHAR" property="headimgurl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UserID, UserName, Pass, TwoPassword, NickName, LogoID, LogoFileMD5, Token, OnlineFlag, 
+    Disabled, Sex, IsRobot, AgencyID, Salt, HeadImgUrl
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TUsers
+    where UserID = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from TUsers
+    where UserID = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gameAd.maker.bean.TUsers">
+    insert into TUsers (UserID, UserName, Pass, 
+      TwoPassword, NickName, LogoID, 
+      LogoFileMD5, Token, OnlineFlag, 
+      Disabled, Sex, IsRobot, 
+      AgencyID, Salt, HeadImgUrl
+      )
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=NVARCHAR}, #{pass,jdbcType=NVARCHAR}, 
+      #{twopassword,jdbcType=NVARCHAR}, #{nickname,jdbcType=NVARCHAR}, #{logoid,jdbcType=INTEGER}, 
+      #{logofilemd5,jdbcType=NVARCHAR}, #{token,jdbcType=NVARCHAR}, #{onlineflag,jdbcType=INTEGER}, 
+      #{disabled,jdbcType=INTEGER}, #{sex,jdbcType=SMALLINT}, #{isrobot,jdbcType=SMALLINT}, 
+      #{agencyid,jdbcType=INTEGER}, #{salt,jdbcType=VARCHAR}, #{headimgurl,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gameAd.maker.bean.TUsers">
+    insert into TUsers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        UserID,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="pass != null">
+        Pass,
+      </if>
+      <if test="twopassword != null">
+        TwoPassword,
+      </if>
+      <if test="nickname != null">
+        NickName,
+      </if>
+      <if test="logoid != null">
+        LogoID,
+      </if>
+      <if test="logofilemd5 != null">
+        LogoFileMD5,
+      </if>
+      <if test="token != null">
+        Token,
+      </if>
+      <if test="onlineflag != null">
+        OnlineFlag,
+      </if>
+      <if test="disabled != null">
+        Disabled,
+      </if>
+      <if test="sex != null">
+        Sex,
+      </if>
+      <if test="isrobot != null">
+        IsRobot,
+      </if>
+      <if test="agencyid != null">
+        AgencyID,
+      </if>
+      <if test="salt != null">
+        Salt,
+      </if>
+      <if test="headimgurl != null">
+        HeadImgUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="pass != null">
+        #{pass,jdbcType=NVARCHAR},
+      </if>
+      <if test="twopassword != null">
+        #{twopassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=NVARCHAR},
+      </if>
+      <if test="logoid != null">
+        #{logoid,jdbcType=INTEGER},
+      </if>
+      <if test="logofilemd5 != null">
+        #{logofilemd5,jdbcType=NVARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=NVARCHAR},
+      </if>
+      <if test="onlineflag != null">
+        #{onlineflag,jdbcType=INTEGER},
+      </if>
+      <if test="disabled != null">
+        #{disabled,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="isrobot != null">
+        #{isrobot,jdbcType=SMALLINT},
+      </if>
+      <if test="agencyid != null">
+        #{agencyid,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null">
+        #{headimgurl,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gameAd.maker.bean.TUsers">
+    update TUsers
+    <set>
+      <if test="username != null">
+        UserName = #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="pass != null">
+        Pass = #{pass,jdbcType=NVARCHAR},
+      </if>
+      <if test="twopassword != null">
+        TwoPassword = #{twopassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="nickname != null">
+        NickName = #{nickname,jdbcType=NVARCHAR},
+      </if>
+      <if test="logoid != null">
+        LogoID = #{logoid,jdbcType=INTEGER},
+      </if>
+      <if test="logofilemd5 != null">
+        LogoFileMD5 = #{logofilemd5,jdbcType=NVARCHAR},
+      </if>
+      <if test="token != null">
+        Token = #{token,jdbcType=NVARCHAR},
+      </if>
+      <if test="onlineflag != null">
+        OnlineFlag = #{onlineflag,jdbcType=INTEGER},
+      </if>
+      <if test="disabled != null">
+        Disabled = #{disabled,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        Sex = #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="isrobot != null">
+        IsRobot = #{isrobot,jdbcType=SMALLINT},
+      </if>
+      <if test="agencyid != null">
+        AgencyID = #{agencyid,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null">
+        Salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null">
+        HeadImgUrl = #{headimgurl,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where UserID = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gameAd.maker.bean.TUsers">
+    update TUsers
+    set UserName = #{username,jdbcType=NVARCHAR},
+      Pass = #{pass,jdbcType=NVARCHAR},
+      TwoPassword = #{twopassword,jdbcType=NVARCHAR},
+      NickName = #{nickname,jdbcType=NVARCHAR},
+      LogoID = #{logoid,jdbcType=INTEGER},
+      LogoFileMD5 = #{logofilemd5,jdbcType=NVARCHAR},
+      Token = #{token,jdbcType=NVARCHAR},
+      OnlineFlag = #{onlineflag,jdbcType=INTEGER},
+      Disabled = #{disabled,jdbcType=INTEGER},
+      Sex = #{sex,jdbcType=SMALLINT},
+      IsRobot = #{isrobot,jdbcType=SMALLINT},
+      AgencyID = #{agencyid,jdbcType=INTEGER},
+      Salt = #{salt,jdbcType=VARCHAR},
+      HeadImgUrl = #{headimgurl,jdbcType=NVARCHAR}
+    where UserID = #{userid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByMap" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TUsers
+    <where>
+      <if test="openid != null">
+        AND UserName = #{openid}
+      </if>
+    </where>
+  </select>
+</mapper>

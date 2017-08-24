@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+						   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+                           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+    <mvc:default-servlet-handler/>
+    <!-- 自动扫描controller包中的控制器 -->
+    <context:component-scan base-package="com.gameAd.maker.controller" />
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/gameAd/**" />
+            <mvc:exclude-mapping path="/gameAd/index" />
+            <mvc:exclude-mapping path="/weixin/getcode" />
+            <bean class="com.gameAd.maker.intercepter.LoginIntercepter" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <mvc:annotation-driven>
+        <!-- 处理responseBody 里面日期类型 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean  class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="ignoreAcceptHeader" value="true"/>
+        <property name="defaultContentType" value="application/json"/>
+        <property name="mediaTypes">
+            <map>
+                <entry key="atom" value="application/atom+xml"/>
+                <entry key="html" value="text/html"/>
+                <entry key="json" value="application/json"/>
+                <entry key="report" value="application/pdf"/>
+            </map>
+        </property>
+        <property name="favorParameter" value="false"/>
+    </bean>
+
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
+        <property name="prefix" value="/WEB-INF/views" />
+        <property name="suffix" value=".html" />
+    </bean>
+
+    <mvc:resources location="/WEB-INF/statics/js/" mapping="/js/**"/>
+    <mvc:resources location="/WEB-INF/statics/css/" mapping="/css/**"/>
+    <mvc:resources location="/WEB-INF/statics/img/" mapping="/img/**"/>
+    <mvc:resources location="/WEB-INF/statics/fonts/" mapping="/fonts/**"/>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--1024*1024*500=500M-->
+        <property name="maxUploadSize" value="524288000"/>
+        <!--resolveLazily属性启用是为了推迟文件解析，以便在UploadController 中捕获文件大小异常-->
+        <property name="resolveLazily" value="true"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+</beans>

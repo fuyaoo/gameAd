@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gameAd.maker.dao.WebManageAdminMapper">
+  <resultMap id="BaseResultMap" type="com.gameAd.maker.bean.WebManageAdmin">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="UserName" jdbcType="NVARCHAR" property="username" />
+    <result column="Password" jdbcType="NVARCHAR" property="password" />
+    <result column="Purview" jdbcType="NVARCHAR" property="purview" />
+    <result column="UserGroup" jdbcType="TINYINT" property="usergroup" />
+    <result column="LastLoginIP" jdbcType="NVARCHAR" property="lastloginip" />
+    <result column="LastLoginTime" jdbcType="TIMESTAMP" property="lastlogintime" />
+    <result column="LastLogoutTime" jdbcType="TIMESTAMP" property="lastlogouttime" />
+    <result column="LoginTimes" jdbcType="INTEGER" property="logintimes" />
+    <result column="AdminPurview_Article_T" jdbcType="INTEGER" property="adminpurviewArticleT" />
+    <result column="AdminPurview_Soft_T" jdbcType="INTEGER" property="adminpurviewSoftT" />
+    <result column="AdminPurview_Photo_T" jdbcType="INTEGER" property="adminpurviewPhotoT" />
+    <result column="AdminPurview_Guest_T" jdbcType="NVARCHAR" property="adminpurviewGuestT" />
+    <result column="AdminPurview_Others_T" jdbcType="NVARCHAR" property="adminpurviewOthersT" />
+    <result column="RndPassword_T" jdbcType="NVARCHAR" property="rndpasswordT" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, UserName, Password, Purview, UserGroup, LastLoginIP, LastLoginTime, LastLogoutTime, 
+    LoginTimes, AdminPurview_Article_T, AdminPurview_Soft_T, AdminPurview_Photo_T, AdminPurview_Guest_T, 
+    AdminPurview_Others_T, RndPassword_T
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Web_manage_admin
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Web_manage_admin
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gameAd.maker.bean.WebManageAdmin">
+    insert into Web_manage_admin (ID, UserName, Password, 
+      Purview, UserGroup, LastLoginIP, 
+      LastLoginTime, LastLogoutTime, LoginTimes, 
+      AdminPurview_Article_T, AdminPurview_Soft_T, 
+      AdminPurview_Photo_T, AdminPurview_Guest_T, 
+      AdminPurview_Others_T, RndPassword_T)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=NVARCHAR}, #{password,jdbcType=NVARCHAR}, 
+      #{purview,jdbcType=NVARCHAR}, #{usergroup,jdbcType=TINYINT}, #{lastloginip,jdbcType=NVARCHAR}, 
+      #{lastlogintime,jdbcType=TIMESTAMP}, #{lastlogouttime,jdbcType=TIMESTAMP}, #{logintimes,jdbcType=INTEGER}, 
+      #{adminpurviewArticleT,jdbcType=INTEGER}, #{adminpurviewSoftT,jdbcType=INTEGER}, 
+      #{adminpurviewPhotoT,jdbcType=INTEGER}, #{adminpurviewGuestT,jdbcType=NVARCHAR}, 
+      #{adminpurviewOthersT,jdbcType=NVARCHAR}, #{rndpasswordT,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gameAd.maker.bean.WebManageAdmin">
+    insert into Web_manage_admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="password != null">
+        Password,
+      </if>
+      <if test="purview != null">
+        Purview,
+      </if>
+      <if test="usergroup != null">
+        UserGroup,
+      </if>
+      <if test="lastloginip != null">
+        LastLoginIP,
+      </if>
+      <if test="lastlogintime != null">
+        LastLoginTime,
+      </if>
+      <if test="lastlogouttime != null">
+        LastLogoutTime,
+      </if>
+      <if test="logintimes != null">
+        LoginTimes,
+      </if>
+      <if test="adminpurviewArticleT != null">
+        AdminPurview_Article_T,
+      </if>
+      <if test="adminpurviewSoftT != null">
+        AdminPurview_Soft_T,
+      </if>
+      <if test="adminpurviewPhotoT != null">
+        AdminPurview_Photo_T,
+      </if>
+      <if test="adminpurviewGuestT != null">
+        AdminPurview_Guest_T,
+      </if>
+      <if test="adminpurviewOthersT != null">
+        AdminPurview_Others_T,
+      </if>
+      <if test="rndpasswordT != null">
+        RndPassword_T,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=NVARCHAR},
+      </if>
+      <if test="purview != null">
+        #{purview,jdbcType=NVARCHAR},
+      </if>
+      <if test="usergroup != null">
+        #{usergroup,jdbcType=TINYINT},
+      </if>
+      <if test="lastloginip != null">
+        #{lastloginip,jdbcType=NVARCHAR},
+      </if>
+      <if test="lastlogintime != null">
+        #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogouttime != null">
+        #{lastlogouttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logintimes != null">
+        #{logintimes,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewArticleT != null">
+        #{adminpurviewArticleT,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewSoftT != null">
+        #{adminpurviewSoftT,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewPhotoT != null">
+        #{adminpurviewPhotoT,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewGuestT != null">
+        #{adminpurviewGuestT,jdbcType=NVARCHAR},
+      </if>
+      <if test="adminpurviewOthersT != null">
+        #{adminpurviewOthersT,jdbcType=NVARCHAR},
+      </if>
+      <if test="rndpasswordT != null">
+        #{rndpasswordT,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gameAd.maker.bean.WebManageAdmin">
+    update Web_manage_admin
+    <set>
+      <if test="username != null">
+        UserName = #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="password != null">
+        Password = #{password,jdbcType=NVARCHAR},
+      </if>
+      <if test="purview != null">
+        Purview = #{purview,jdbcType=NVARCHAR},
+      </if>
+      <if test="usergroup != null">
+        UserGroup = #{usergroup,jdbcType=TINYINT},
+      </if>
+      <if test="lastloginip != null">
+        LastLoginIP = #{lastloginip,jdbcType=NVARCHAR},
+      </if>
+      <if test="lastlogintime != null">
+        LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogouttime != null">
+        LastLogoutTime = #{lastlogouttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logintimes != null">
+        LoginTimes = #{logintimes,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewArticleT != null">
+        AdminPurview_Article_T = #{adminpurviewArticleT,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewSoftT != null">
+        AdminPurview_Soft_T = #{adminpurviewSoftT,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewPhotoT != null">
+        AdminPurview_Photo_T = #{adminpurviewPhotoT,jdbcType=INTEGER},
+      </if>
+      <if test="adminpurviewGuestT != null">
+        AdminPurview_Guest_T = #{adminpurviewGuestT,jdbcType=NVARCHAR},
+      </if>
+      <if test="adminpurviewOthersT != null">
+        AdminPurview_Others_T = #{adminpurviewOthersT,jdbcType=NVARCHAR},
+      </if>
+      <if test="rndpasswordT != null">
+        RndPassword_T = #{rndpasswordT,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gameAd.maker.bean.WebManageAdmin">
+    update Web_manage_admin
+    set UserName = #{username,jdbcType=NVARCHAR},
+      Password = #{password,jdbcType=NVARCHAR},
+      Purview = #{purview,jdbcType=NVARCHAR},
+      UserGroup = #{usergroup,jdbcType=TINYINT},
+      LastLoginIP = #{lastloginip,jdbcType=NVARCHAR},
+      LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      LastLogoutTime = #{lastlogouttime,jdbcType=TIMESTAMP},
+      LoginTimes = #{logintimes,jdbcType=INTEGER},
+      AdminPurview_Article_T = #{adminpurviewArticleT,jdbcType=INTEGER},
+      AdminPurview_Soft_T = #{adminpurviewSoftT,jdbcType=INTEGER},
+      AdminPurview_Photo_T = #{adminpurviewPhotoT,jdbcType=INTEGER},
+      AdminPurview_Guest_T = #{adminpurviewGuestT,jdbcType=NVARCHAR},
+      AdminPurview_Others_T = #{adminpurviewOthersT,jdbcType=NVARCHAR},
+      RndPassword_T = #{rndpasswordT,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByMap" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from Web_manage_admin
+    <where>
+      <if test="username != null">
+        AND UserName = #{username}
+      </if>
+      <if test="password != null">
+        AND Password = #{password}
+      </if>
+    </where>
+  </select>
+</mapper>

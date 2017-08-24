@@ -1,0 +1,73 @@
+<configuration scan="true" scanPeriod=" 5 seconds">
+    <jmxConfigurator />
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger[%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    <appender name="all" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <Key>dir</Key>
+            <DefaultValue>/tmp/</DefaultValue>
+        </discriminator>
+        <sift>
+            <appender name="oms-web" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <File>${dir}/logs/oms-web.log</File>
+                <rollingPolicy
+                        class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    &lt;!&ndash; rollover daily &ndash;&gt;
+                    <fileNamePattern>${dir}/logs/back/%d{yyyy-MM-dd}/meta-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+                    <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                        &lt;!&ndash; or whenever the file size reaches 100MB &ndash;&gt;
+                        <maxFileSize>10MB</maxFileSize>
+                    </timeBasedFileNamingAndTriggeringPolicy>
+                    <maxHistory>60</maxHistory>
+                </rollingPolicy>
+                <encoder>
+                        <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger[%line] - %msg%n</pattern>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>-->
+
+    <appender name="rollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/usr/local/tomcat9/golder.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/usr/local/tomcat9/golder-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder><!-- 必须指定，否则不会往文件输出内容 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+        <append>false</append>
+        <prudent>false</prudent>
+    </appender>
+
+    <!-- 3rdparty Loggers -->
+    <logger name="org.springframework.core">
+        <level value="error" />
+    </logger>
+
+    <logger name="org.springframework.beans">
+        <level value="error" />
+    </logger>
+
+    <logger name="org.springframework.context">
+        <level value="error" />
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="error" />
+    </logger>
+    <logger name="org.springframework.beans" level="ERROR"/>
+    <logger name="org.springframework.aop" level="ERROR"/>
+    <logger name="org.apache.http" level="ERROR"/>
+    <logger name="org.apache.commons" level="ERROR"/>
+
+
+
+    <root level="debug">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingAppender" />
+    </root>
+</configuration>
