@@ -1,0 +1,315 @@
+/*
+* @Author: Marte
+* @Date:   2017-07-11 13:38:54
+* @Last Modified by:   Marte
+* @Last Modified time: 2017-08-02 10:15:15
+*/
+
+.agent,
+.group,
+.modalAgent{
+  margin: 0 100px;
+}
+.agent > div:first-child{
+  border: 1px solid #ddd;
+  padding: 6px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+.query{
+  padding: 6px 12px;
+  border-bottom: 1px solid #ddd;
+}
+#agentForm > div > div,
+.channelForm > div > div{
+  width: 400px;
+  text-align: left;
+}
+#agentForm > div:first-child,
+#agentForm > div:nth-child(2),
+#agentForm > div:nth-child(3),
+.channelForm > div:first-child,
+.channelForm > div:nth-child(2),
+.channelForm > div:nth-child(3) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+#userQuery{
+  display: inline-block;
+  padding: 6px 20px;
+  border-radius: 4px;
+  background: #1E88E5;
+  color: #fff;
+  cursor: pointer;
+}
+#agentForm label,
+#agentForm input,
+#agentForm select,
+.channelForm label,
+.channelForm input,
+.channelForm select{
+  padding: 6px 0;
+}
+#agentForm select,
+.channelForm select{
+  width: 200px;
+}
+#agentForm input,
+.channelForm input{
+  width: 200px;
+}
+#regStart,#regEnd,#loginStart,#loginEnd,#start,#end{
+  width: 125px!important;
+}
+
+#agentForm label,
+.channelForm label{
+  text-align: right;
+  width: 100px;
+}
+.agentTable{
+  width: 100%;
+}
+.groupconfig,
+.tagconfig,
+.queryResult{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+.groupconfig + div,
+.tagconfig + div{
+  text-align: center;
+  padding: 10px 0;
+}
+#addGroup,
+#addTag,
+#userreport,
+#someconfig{
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+.groupconfig > div:nth-child(2),
+#tagconfig > div:nth-child(2){
+  position: relative;
+}
+#addGroup + form,
+#addTag + form{
+  position: absolute;
+  background: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px #000;
+  z-index: 500
+}
+.ok,
+.cancel{
+  display: inline-block;
+  padding: 4px 6px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancel{
+  margin-left: 6px;
+}
+.queryResult{
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+#userreport,
+#someconfig{
+  background: #1E88E5;
+  color: #fff;
+}
+.group > div{
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+#groupUl > li > span,
+#tagUl > li > span{
+  display: inline-block;
+}
+#groupUl > li,
+#tagUl > li {
+  position: relative;
+}
+#groupUl > li > form,
+#tagUl > li > form{
+  display: none;
+  position: absolute;
+  left: 606px;
+  top: 33px;
+  background: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 1px #000;
+  background: #fff;
+  z-index: 300;
+}
+#groupUl > li >span:first-child,
+#tagUl > li >span:first-child{
+  width: 100px;
+}
+#groupUl > li >span:nth-child(2),
+#tagUl > li >span:nth-child(2){
+  width: 200px;
+}
+#groupUl > li >span:nth-child(3),
+#tagUl > li >span:nth-child(3){
+  width: 100px;
+}
+.modalAgent{
+  display: none;
+}
+.modalAgent > div{
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.modalAgent ul li{
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+.modalAgent ul li > div{
+  overflow: hidden;
+}
+.modalAgent ul li > div > div{
+  float: left;
+  width: 50%;
+}
+.modalAgent ul li form{
+  position: absolute;
+}
+.config{
+  cursor: pointer;
+  color: blue;
+}
+.span{
+  height: 20px;
+  background: #ddd;
+  position: relative;
+}
+.span > b{
+  position: absolute;
+  height: 20px;
+  background: yellow;
+  left: 0;
+}
+.useredit,
+.userdelete{
+  padding: 2px 6px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  margin: 2px;
+  cursor: pointer;
+}
+.pages{
+  display: table;
+  margin: 10px auto;
+  overflow: hidden;
+}
+.pages > li{
+  float: left;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 4px;
+  cursor: pointer;
+}
+.pages > li:hover,
+.pages > li.active{
+  background: #1E88E5;
+  color: #fff;
+}
+#saveconfig,
+#cancelconfig{
+  padding: 6px 12px;
+  background: #1E88E5;
+  border-radius: 4px;
+  outline: none;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+#cancelconfig{
+  margin-left: 12px;
+}
+#nickName1,
+#Uid{
+  display: inline-block;
+  width: 300px;
+  word-break:keep-all;/* 不换行 */
+  white-space:nowrap;/* 不换行 */
+  overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+  text-overflow:ellipsis;
+}
+.channel{
+  border: 1px solid #ddd;
+  padding: 6px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+#submit1,
+#buildChannel,
+#cancelChannel
+{
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background: #1E88E5;
+  border-radius: 4px;
+  color: #fff;
+}
+.channelDelete,
+.channelReport{
+  display: inline-block;
+  padding: 0 6px;
+  cursor: pointer;
+  color: #1E88E5;
+}
+.channelDeleteModal{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .5);
+  display: none;
+  text-align: center;
+}
+.channelDeleteModal > div{
+  width: 200px;
+  padding: 10px 20px;
+  margin: 100px auto;
+  background: #fff;
+  border-radius: 4px;
+}
+.channelDeleteModalcancel,
+.channelDeleteModalok{
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#agentTbody img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}

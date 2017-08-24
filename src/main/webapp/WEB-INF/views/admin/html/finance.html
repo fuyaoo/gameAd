@@ -1,0 +1,86 @@
+				<ul class="msg_option">
+					<li class="active">财经日历</li>					
+				</ul>				
+				<div class="msg_content">
+					<div class="search">
+						<input type="search" placeholder="标题"/>
+					</div>
+					<div class="info_title">
+						<div>财经日历（共<span id="total">20</span>条）</div>
+						<div class="finance_">+新建财经日历</div>
+					</div>
+					<ul class="info_finance">
+						<li>							
+							<div>中国二月外汇储备</div>
+							<div>20160411 8:00</div>
+							<div>前值：<span>999</span></div>
+							<div>预测值：<span>999</span></div>
+							<div class="star">
+								<img src="/img/星星_1.svg" alt="" />
+								<img src="/img/星星_1.svg" alt="" />
+								<img src="/img/星星_1.svg" alt="" />
+								<img src="/img/星星.svg" alt="" />
+								<img src="/img/星星.svg" alt="" />
+							</div>
+							<div class="clear">删除</div>
+						</li>						
+					</ul>
+					
+				</div>
+				<!--
+                	finance模态框
+                -->
+                <div class="modal_finance">
+                	<div class="modal_content_finance">
+                		<form action="#" id="form_">
+                			<div class="form-group">
+                				<label for="file">大头图片</label>
+                			<input type="file" name="file" id="file"/>
+                			</div>
+                			<div class="form-group">
+                				<label for="title">输入标题</label>
+                			<input type="text" placeholder="请输入标题" name="title" id="title"/>
+                			</div>              			
+                			<div class="form-group">
+                				<label for="publish_time">发布时间</label>
+                			<input id="publish_time" name="publish_time" type="text" />
+                			</div>
+                			
+                			<div class="form-group">
+                				<label for="current_value">输入前值</label>
+                			<input type="number" placeholder="请输入前值" name="current_value" id="current_value"/>
+                			</div>
+                			
+                			<div class="form-group">
+                				<label for="prediction_value">输入预测值</label>
+                			<input type="number" placeholder="请输入预测值" name="prediction_value" id="prediction_value"/>
+                			<input type="hidden" id="weight" name="weight" value=""/>
+                			<input type="hidden" id="token" name="token" value=""/>
+                			</div>
+                			
+                			<div class="form-group">
+                				<label for="">重要性</label>              				              				
+                			<div class="star_">
+                				<img src="/img/星星.svg" alt="" />
+								<img src="/img/星星.svg" alt="" />
+								<img src="/img/星星.svg" alt="" />
+								<img src="/img/星星.svg" alt="" />
+								<img src="/img/星星.svg" alt="" />
+                			</div>
+                			</div>
+                			
+                			<button id="btnn">确认发布</button>
+                			<div class="info"></div>
+                		</form>
+                	</div>
+                </div>
+                <div class="queren">
+				<div>
+					<h3>确定要删除吗</h3>
+					<div class="ok">确定</div>
+				</div>
+			</div>
+                <script src="/js/jquery.jedate.min.js"></script>
+                <script src="/js/jquery.form.min.js"></script>
+                <script src="/js/finance.js"></script>
+			

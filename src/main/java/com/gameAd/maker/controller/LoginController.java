@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,9 +37,12 @@ public class LoginController {
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
     public String index(HttpServletRequest request) {
-        return "/gameAd/index";
+        return "/gameAd/login";
     }
-
+    @RequestMapping("/admin/{index}")
+    public String showPage(@PathVariable String index) {
+        return "/gameAd/admin/" + index;
+    }
     /**
      * 登录
      * @param request

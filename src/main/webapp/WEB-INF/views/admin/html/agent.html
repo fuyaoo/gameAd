@@ -1,0 +1,252 @@
+<link rel="stylesheet" type="text/css" href="/css/agent.css">
+<ul class="msg_option">
+  <li class="active">经纪人查询</li>
+</ul>
+<div>
+  <div id="body">
+      <div class="agent">
+        <div class="query">
+          创建经纪人账号
+          <span style="float: right;cursor: pointer" id="toggle"><img src="/img/下.svg" alt="" style="width: 20px"></span>
+          <div id="suibian" style="display: none;">
+            <form id="createBroker">
+              <div>
+                <div>
+                  <label for="trainAccount">培训账号：</label>
+                  <input id="trainAccount" name="trainAccount" type="text">
+                </div>
+                <div>
+                  <label for="nickName">经纪人姓名：</label>
+                  <input id="nickName" name="nickName" type="text">
+                </div>
+              </div>
+
+              <div>
+                <div>
+                  <label for="userName">电话号码：</label>
+                  <input id="userName" name="userName" type="text">
+                </div>
+                <div>
+                  <label for="identityMark">身份证号：</label>
+                  <input id="identityMark" name="identityMark" type="text">
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label for="brokerPassword">经纪人密码：</label>
+                  <input id="brokerPassword" name="brokerPassword" type="text">
+                </div>
+                <div>
+                  <label for="depositBank">开户银行：</label>
+                  <select id="depositBank" name="depositBank">
+                    <option value="1">中国工商银行</option>
+                    <option value="2">华夏银行</option>
+                    <option value="3">中国农业银行</option>
+                    <option value="4">中国邮政储蓄银行</option>
+                    <option value="5">中国银行</option>
+                    <option value="6">交通银行</option>
+                    <option value="7">招商银行</option>
+                    <option value="8">中信银行</option>
+                    <option value="9">中国光大银行</option>
+                    <option value="10">中国民生银行</option>
+                    <option value="11">中国建设银行</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label for="brokerageRate">佣金率：</label>
+                  <input id="brokerageRate" name="brokerageRate" type="text" onkeyup="num(this)">
+                </div>
+                <div>
+                  <label for="bankMark">银行卡号：</label>
+                  <input id="bankMark" name="bankMark" type="text">
+                </div>
+              </div>
+              <div>
+                <div>
+                  <label for="businessManager">商务经理：</label>
+                  <select id="businessManager" name="businessManager">
+                    <option value="张三">张三</option>
+                  </select>
+                </div>
+                <div>
+                </div>
+              </div>
+              <div>
+                <div>
+                </div>
+                  <span id="create" style="display: inline-block;padding: 6px 20px;border-radius: 4px;background: #1E88E5;color: #fff;cursor: pointer;">创建</span>
+                  <span class="info"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="agent">
+      <div>
+        <div class="query">查询条件</div>
+        <form id="agentForm">
+          <div>
+            <div>
+              <label for="brokerUsername">经纪人用户名：</label>
+              <input id="brokerUsername" name="brokerUsername" type="text" style="width: 50%">
+              <!--<select name="brokerUsername" id="brokerUsername">-->
+                <!--<option value="">请选择</option>-->
+              <!--</select>-->
+            </div>
+            <div>
+              <label for="brokerNickname">经纪人姓名：</label>
+              <input id="brokerNickname" name="brokerNickname" type="text" style="width: 50%">
+              <!--<select name="brokerNickname" id="brokerNickname">-->
+                <!--<option value="">请选择</option>-->
+              <!--</select>-->
+            </div>
+            <div>
+              <!--<label for="brokeId">ID：</label>-->
+              <!--<select name="brokeId" id="brokeId">-->
+                <!--<option value="">请选择</option>-->
+              <!--</select>-->
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <label for="team">战队：</label>
+              <select name="team" id="team">
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div>
+            </div>
+            <div>
+            </div>
+          </div>
+
+          <div>
+            <span id="select">查询</span>
+          </div>
+        </form>
+      </div>
+
+      <table class="agentTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox"/></th>
+            <th>头像</th>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>ID</th>
+            <th>等级</th>
+            <th>客户数</th>
+            <th class="type1" style="cursor:pointer;color: #1E90FF">累计收入</th>
+            <th class="type2" style="cursor:pointer;color: #1E90FF">佣金余额</th>
+            <th class="type3" style="cursor:pointer;color: #1E90FF">上月收入排名</th>
+            <th>所在战队</th>
+            <th>注册时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody class="agent_body">
+
+        </tbody>
+      </table>
+      <ul class="fenye"></ul>
+      </div>
+  </div>
+
+  <div id="config" style="display: none">
+      <div>
+        经纪人账户配置
+      </div>
+      <form id="agentConfigForm">
+        <div>
+          <div>
+            <label for="r_nickName">姓名:</label>
+            <input id="r_nickName" name="r_nickName" type="text" >
+          </div>
+          <div>
+            <label for="r_identityMark">身份证号：</label>
+            <input id="r_identityMark" name="r_identityMark" type="text">
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <label for="r_userName">经纪人账户：</label>
+            <input id="r_userName" name="r_userName" type="text" readonly="readonly" style="color: red">
+          </div>
+          <div>
+             <label for="r_mail">电子邮箱：</label>
+            <input id="r_mail" name="r_mail" type="text">
+          </div>
+        </div>
+        <div>
+          <div>
+             <label for="r_brokerPassword">登录密码：</label>
+            <input id="r_brokerPassword" name="r_brokerPassword" type="text">
+          </div>
+          <div>
+            <label for="r_brokerageRate">佣金率：</label>
+            <input id="r_brokerageRate" name="r_brokerageRate" type="text" onkeyup="num(this)" size="10">
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <label for="r_businessManager">商务经理：</label>
+            <select id="r_businessManager" name="r_businessManager">
+              <option value="1">张三</option>
+            </select>
+          </div>
+          <div>
+             <label for="r_status">账户状态：</label>
+             <select id="r_status" name="r_status">
+              <option value="">请选择</option>
+             </select>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <label for="r_depositBank">开户银行：</label>
+            <select id="r_depositBank" name="r_depositBank">
+              <option value="0">请选择</option>
+              <option value="1">中国工商银行</option>
+              <option value="2">华夏银行</option>
+              <option value="3">中国农业银行</option>
+              <option value="4">中国邮政储蓄银行</option>
+              <option value="5">中国银行</option>
+              <option value="6">交通银行</option>
+              <option value="7">招商银行</option>
+              <option value="8">中信银行</option>
+              <option value="9">中国光大银行</option>
+              <option value="10">中国民生银行</option>
+              <option value="11">中国建设银行</option>
+            </select>
+          </div>
+          <div>
+            <label for="r_bankMark">银行卡号：</label>
+            <input id="r_bankMark" name="r_bankMark" type="text">
+          </div>
+        </div>
+        <div>
+          <div>
+            <input type="text" id="r_id" hidden="hidden">
+            <span id="toUpdate" style="cursor:pointer">保存</span>
+            <span id="toUpye" style="cursor:pointer">取消</span>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
+<script src="/js/agent.js"></script>
+<script>
+    function num(obj){
+        obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+        obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+    }
+</script>

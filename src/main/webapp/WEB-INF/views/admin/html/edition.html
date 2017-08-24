@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="/css/edition.css" />
+<ul class="msg_option pdan">
+	<li class="active">版本列表</li>				
+</ul>	
+<div id="editionShow">
+	<div class="info_title">
+		<div>当前状态（共<span id="total">0</span>个版本）</div>
+		<div id="editionBuild">新建版本</div>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>文件名</th>
+				<th>版本号</th>
+				<th>文件大小</th>
+				<th>发布日期</th>
+				<th>强制更新</th>
+				<th>更新日志</th>
+				<th>公开范围</th>
+				<th>文件上传日期</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		
+		<tbody id="editonTbody">
+			
+		</tbody>
+	</table>
+</div>
+
+<div id="editionForms" style="display: none;">
+	<div class="info_msg"></div>
+	<form action="" id="editionForm">
+		<div class="form-group">
+			<label for="file">安装文件</label>
+			<input type="file" id="file" name="file"/>
+		</div>
+		<div class="form-group">
+			<label for="">文件大小</label>
+			<span id="is_big" style="margin-left: 10px"></span>
+		</div>
+		<div class="form-group">
+			<label for="">文件版本</label>
+			<span id="file_edit" style="margin-left: 10px"></span>
+		</div>
+		<div class="form-group">
+			<label for="">发布时间</label>
+			<input type="radio" id="immediately" name="time" value="0" checked="checked"/>
+			<label for="">立即发布</label>
+			<input type="radio" id="time_point" name="time" value="1"/>
+			<label for="">指定时间</label>
+			<input type="text" id="publish_time" name="publish_time"/>
+		</div>
+		<div class="form-group">
+			<label for="">强制更新</label>
+			<input type="radio" name="is_force" id="is_force_true" value="1" />
+			<label for="is_force_true">是</label>
+			<input type="radio" name="is_force" id="is_force_false" value="0" checked="checked"/>
+			<label for="is_force_false">否</label>
+		</div>
+		<div class="form-group">
+			<label for="publish_log">更新日志</label>
+			<textarea name="publish_log" rows="4" cols="" id="publish_log" placeholder="请输入日志"></textarea>0/500
+		</div>
+		<div class="form-group">
+			<label for="">公布范围</label>
+			<input type="radio" name="scope" id="scope_all" value="0" checked="checked"/>
+			<label for="scope_all">所有用户</label><br />
+			<label for="" style="visibility: hidden;">公布范围</label>
+			<input type="radio" name="scope" id="scope_point" value="1"/>
+			<label for="scope_point">指定用户</label>
+			<input type="text" name="assign_phone" id="assign_phone"/>
+		</div>
+		<input type="hidden" id="token" name="token" />
+		<input type="hidden" id="id" name="id"/>
+		<input type="hidden" id="form_token" name="form_token"/>
+		<button id="btn">提交</button>
+		<div class="info"></div>
+	</form>
+</div>
+
+<script src="/js/edition.js"></script>

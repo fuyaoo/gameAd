@@ -1,0 +1,38 @@
+.admin{
+	width:300px;
+	padding:20px;
+	box-shadow: 1px 1px 5px 1px #DDD;
+	margin:20% auto 0;
+	text-align:center;
+	border-radius: 5px;
+}
+.admin>div{
+	padding:12px;
+	font-size:20px;
+}
+.admin>input{
+	width:90%;
+	padding:5px 8px;
+	box-shadow: none;
+	margin-bottom:10px;	
+}
+#btn{
+	width:90%;
+	appearance: none;
+	-webkit-appearance: none;
+	padding:5px 8px;
+	background:#4778c7;
+	border-radius:5px;
+	margin:0 auto;
+	color:#fff;
+	border:none;
+	outline: none;
+	font-size:16px;
+	cursor: pointer;
+	box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+}
+.info{
+	color:red;
+	font-size:12px!important;
+}

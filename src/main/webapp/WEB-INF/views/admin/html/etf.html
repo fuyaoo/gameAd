@@ -1,0 +1,179 @@
+			<ul class="msg_option">
+					<li class="active" id="etf">ETF报告管理</li>	
+					<li id="cost">递延费支付方向管理</li>
+					<li id="sta">上海金基准价</li>
+				</ul>				
+				<div class="msg_content">
+					
+					<div id="etfAdministration">
+						<div class="etf">
+							<span id="gold" class="active">黄金ETF</span>
+							<span id="silver">白银ETF</span>
+						</div>					
+						<table id="etfGold">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>日期</th>
+									<th>持仓量（吨）</th>
+									<th>总价值（亿美元）</th>
+									<th>较上日变动（吨）</th>
+									<th>操作</th>								
+								</tr>							
+							</thead>
+							<tbody>
+									<tr>
+
+										<td>0</td>
+										<td><input type="date" class="g_etfDate"/></td>
+										<td><input type="number" placeholder="持仓量不能为空!" class="g_positionNum"/></td>
+										<td><input type="number" placeholder="总价值不能为空!" class="g_totalValue"/></td>
+										<td><input type="number" placeholder="较上日变动不能为空!" class="g_changeNum"/></td>
+										<td><input type="submit" class="g_submit" value="提交"/>&nbsp;&nbsp;<span style="color: red" class="g_info"></span></td>
+									
+									</tr>
+								
+								
+							</tbody>
+							<tbody class="etfGold_tbody">
+								
+							</tbody>
+						</table>
+	
+						<table id="etfSilver" style="display: none;">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>日期</th>
+									<th>持仓量（吨）</th>
+									<th>总价值（亿美元）</th>
+									<th>较上日变动（吨）</th>
+									<th>操作</th>								
+								</tr>							
+							</thead>
+							<tbody>							
+									<tr>
+
+										<td>0</td>
+										<td><input type="date" class="s_etfDate"/></td>
+										<td><input type="number" placeholder="持仓量不能为空!" class="s_positionNum"/></td>
+										<td><input type="number" placeholder="总价值不能为空!" class="s_totalValue"/></td>
+										<td><input type="number" placeholder="较上日变动不能为空!" class="s_changeNum"/></td>
+										<td><input type="submit" class="s_submit" value="提交"/>&nbsp;&nbsp;<span style="color: red" class="s_info"></span></td>
+									
+									</tr>
+								
+								
+							</tbody>
+							<tbody class="etfSilver_tbody">
+								
+							</tbody>
+						</table>
+					</div>
+					
+					
+					<table id="costAdministration" style="display: none;">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>日期</th>
+								<th>迷你黄金延期</th>
+								<th>黄金延期</th>
+								<th>白银延期</th>
+								<th>操作</th>								
+							</tr>
+							
+						</thead>
+						
+						<tbody>							
+								<tr>
+
+									<td>0</td>
+									<td><input type="date" class="deferredDate"/></td>
+									<td>
+										<select name="minigold" class="minigold" style="width: 40%">
+											<option value="">选择方向</option>
+											<option value="1">多付空</option>
+											<option value="2">空付多</option>
+										</select>
+										<!--<input type="number" placeholder="1:多付空 2:空付多" class="minigold"/>-->
+									</td>
+									<td>
+										<select name="gold" class="gold" style="width: 40%">
+											<option value="">选择方向</option>
+											<option value="1">多付空</option>
+											<option value="2">空付多</option>
+										</select>
+										<!--<input type="number" placeholder="1:多付空 2:空付多" class="gold"/>-->
+									</td>
+									<td>
+										<select name="silver" class="silver" style="width: 40%">
+											<option value="">选择方向</option>
+											<option value="1">多付空</option>
+											<option value="2">空付多</option>
+										</select>
+										<!--<input type="number" placeholder="1:多付空 2:空付多" class="silver"/>-->
+									</td>
+									<td><input type="submit" class="de_submit" value="提交"/>&nbsp;&nbsp;<span style="color: red" class="de_info"></span></td>
+
+								</tr>
+							
+							
+						</tbody>
+						<tbody class="cost_tbody">
+						</tbody>
+					</table>
+					<!-- 上海金基准价 -->
+					<table id="staAdministration" style="display: none;">
+						<thead>
+						<tr>
+							<th>序号</th>
+							<th>日期</th>
+							<th>早盘价</th>
+							<th>午盘价</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>0</td>
+							<td><input type="date" class="tradingDay"/></td>
+							<td><input type="number" placeholder="早盘价不能为空!" class="earlyPrice"/></td>
+							<td><input type="number" placeholder="午盘价不能为空!" class="middayPrice"/></td>
+							<td><input type="submit" class="sta_submit" value="提交"/>&nbsp;&nbsp;<span style="color: red" class="sta_info"></span></td>
+						</tr>
+
+						</tbody>
+						<tbody class="sta_tbody">
+						</tbody>
+					</table>
+				</div>
+				<ul class="fenye"></ul>
+				<script src="/js/etf.js"></script>
+				<script>
+					$('.msg_option li').click(function(){
+						$(this).addClass('active').siblings().removeClass('active');
+						
+						if($(this).attr('id') == 'etf'){
+							$('#etfAdministration').show().siblings().hide()
+                            $.etf(1,1);
+						}else if($(this).attr('id') == 'cost'){
+							$('#costAdministration').show().siblings().hide()
+                            $.def(1);
+						}else if($(this).attr('id') == 'sta'){
+                            $('#staAdministration').show().siblings().hide()
+                            $.sta(1);
+                        }
+					});
+					
+					$('.etf span').click(function(){
+						$(this).addClass('active').siblings().removeClass('active');
+						if($(this).attr('id') == 'gold'){
+							$('#etfGold').show().siblings('table').hide()
+                            $.etf(1,1);
+						}else{
+                            $('#etfSilver').show().siblings('table').hide()
+                            $.etf(1,2);
+						}
+					})
+				</script>

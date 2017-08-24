@@ -1,0 +1,81 @@
+				<ul class="msg_option">
+					<li class="active">Push</li>					
+				</ul>				
+				<div class="msg_content">
+					
+					<div class="info_title">
+						<div>Push（共<span id="push_total">0</span>条）</div>
+						<div class="push_">+新建Push</div>
+					</div>									
+					
+					
+					<table>
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>推送内容</th>
+								<th>页面</th>
+								<th>推送时间</th>
+								<th>推送范围</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody class="push_tbody">
+						</tbody>
+					</table>
+				</div>
+				<ul class="fenye"></ul>
+				<!--
+                	push modal
+                -->
+				<div class="modal_push">
+					<div class="modal_push_title">
+						<span class='return'><img src="/img/返回.svg" alt="" /></span>
+						<span>Push/新建Push</span>
+					</div>
+					<div class="modal_push_content">
+						<form action="" id="form">
+							<textarea rows="5" form="form" cols="" placeholder="开始编辑push" id="push_content" name="push_content" style="border:darkgreen solid;"></textarea><br />
+							<span>推送范围</span>
+							<label for="all_user">所有用户</label><input type="radio" name="range" id="all_user" value="1" checked="checked"/><br />
+							<span style="visibility: hidden;">推送范围</span>
+							<label for="only_user">指定用户</label><input type="radio" name="range" id="only_user" value="2"/>
+							<input type="text" name="only_user_text" placeholder="输入指定用户手机号，用“;”划分多个用户" id="only_user_text" value="" readonly="readonly"/><br /><br /><br />
+
+
+							<span>跳转页面</span>
+							<input type="radio" name="model" id="model" checked="checked" value="1"/>
+								<label for="model">页面</label>
+								<select name="sel_model" id="">
+									<option value="1">首页</option>
+									<option value="2">行情</option>
+									<option value="3">行情-白银</option>
+									<option value="4">行情-黄金</option>
+									<option value="5">行情-迷你黄金</option>
+									<option value="6">我的</option>
+									<option value="7">消息列表</option>
+									<option value="8">消息正文</option>
+								</select><br />
+							<span style="visibility: hidden;">跳转页面</span>
+							<input type="radio" name="model" id="url" value="2"/>
+							<label for="push_url">链接</label>
+							<input type="text" name="sel_url" id="push_url" value="" readonly="readonly"/><br /><br /><br />
+
+
+							<span>发送时间</span>
+							<label for="def_time">立即发布</label><input type="radio" name="time" id="def_time" value="1" checked="checked"/><br />
+							<span style="visibility: hidden;">发送时间</span>
+							<label for="set_time">指定时间</label><input type="radio" name="time" id="set_time" value="2"/>
+							<input type="text" name="push_time" id="push_time" /><br /><br /><br />
+							<!--<select name="time" id="time">-->
+								<!--<option value="1">立即发布</option>-->
+							<!--</select><br /><br /><br />-->
+
+							<button id="push_btn">发布</button>
+							<div class="info"></div>
+						</form>
+					</div>
+				</div>
+
+				<script src="/js/push.js"></script>

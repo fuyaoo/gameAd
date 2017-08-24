@@ -1,0 +1,54 @@
+				<ul class="msg_option">
+					<li class="active">公告</li>					
+				</ul>				
+				<div class="msg_content">
+					<div class="search">
+						<input type="search" placeholder="标题/作者"/>					
+					</div>
+					<div class="info_title">
+						<div>公告（共<span id="total">20</span>条）</div>
+						<div class="notice_">+新建公告</div>
+					</div>									
+							<ul class="info_push">
+							</ul>					
+				</div>
+				<ul class="fenye"></ul>
+				<!--
+                	公告模态框
+                -->
+                <div class="modal_notice">
+                	<div class="modal_notice_content">
+                		<div class="modal_notice_title">
+                			<span class='return'><img src="/img/返回.svg" alt="" /></span>
+                			<span>公告/新建公告</span>
+                		</div>
+                		<div class="modal_notice_info">
+                			<form action="" id="form">
+							<input type="hidden" name="form_token" id="form_token" value/>
+                			<input type="text" placeholder="请在这里输入标题(最多20字)" id="noticeTitle" name="noticeTitle" maxlength="20"/><br />
+                			<input type="text" placeholder="请输入作者" id="notice_author" name="noticeAuthor" maxlength="10"/><br />
+                			<textarea name="noticeContent" rows="5" cols="" placeholder="开始编辑正文" id="noticeContent"></textarea><br />
+							<!--<label>消息类型：</label><select id="noticeClassify" name="noticeClassify" style="width: 10%">-->
+								<!--<option value="0">请选择</option>-->
+								<!--<option value="1">公告消息</option>-->
+								<!--<option value="2">账户消息</option>-->
+								<!--<option value="3">账务消息</option>-->
+							<!--</select>-->
+                			<input type="hidden" name="token" id="token" value=""/>
+                			<div>
+                				<button id="notice_btn">发布</button>
+                				<div class="info"></div>
+                			</div>
+                		
+                			</form>
+                		</div>
+                	</div>
+                </div>
+                <div class="queren">
+				<div>
+					<h3>确定要删除吗</h3>
+					<div class="ok">确定</div>
+				</div>
+			</div>
+                <script src="/js/jquery.form.min.js"></script>
+                 <script src="/js/notice.js"></script>

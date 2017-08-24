@@ -1,0 +1,31 @@
+.info_push{
+	width:100%;
+}
+.info_push>li{
+	width:100%;
+	cursor:pointer;
+	padding:15px 0;
+	border-bottom:1px solid #ddd;
+}
+.info_push>li>div{
+	overflow: hidden;
+	width:100%;
+}
+.info_push>li>div>div:first-child{
+	float:left;
+	width:50%;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.info_push>li>div>div+div{
+	float:right;
+	margin-left:20px;
+}
+.info_push>li>div+div{
+	padding:20px 0;
+	max-height:80px;
+	overflow:hidden;
+	
+}
+

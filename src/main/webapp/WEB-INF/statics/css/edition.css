@@ -1,0 +1,45 @@
+@charset "utf-8";
+td span{
+	cursor: pointer;
+}
+td span+span{
+	margin-left: 10px;
+}
+.info_title{
+	padding: 30px 100px;
+}
+#editionForms{
+	padding:20px 100px;
+}
+#publish_log{
+	width: 550px;
+	padding: 10px;
+}
+#assign_phone{
+	margin-left: -50px;
+	width: 410px;
+}
+#btn{
+	margin-left:300px;
+	background: #1E88E5;
+	color: #fff;
+	padding: 6px 10px;
+	border-radius: none;
+	outline: medium;
+	border: none;
+	width: 100px;
+	border-radius: 5px;
+}
+td:nth-child(6),
+th:nth-child(6){
+	width: 300px;
+}
+td:nth-child(9),
+th:nth-child(9){
+	width: 140px;
+}
+.info_msg{
+	font-size: 20px;
+	color: red;
+	
+}

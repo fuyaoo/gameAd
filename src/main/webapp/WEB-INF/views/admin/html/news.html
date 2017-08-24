@@ -1,0 +1,315 @@
+
+				<ul class="msg_option">
+					<li class="install active">栏目设置</li>
+                    <li class="drafts">草稿箱</li>
+				</ul>
+				<div id="install_content">
+
+                    <div id="column">
+    					<table>
+    						<thead>
+    							<th>排序</th>
+    							<th>图标</th>
+    							<th>栏目标题</th>
+    							<th>首页展示</th>
+    							<th>首页展示条目数量</th>
+    							<th>操作</th>
+    						</thead>
+    						<tbody class="install_tbody">
+
+    						</tbody>
+    					</table>
+    					<span class="new_column">新建栏目</span>
+    					<form action="" id="form_install" style="display: none;">
+    						<!--标题-->
+    						<label for="title_install">标题</label>
+    						<input type="text" name="title" id="title_install" value/><br />
+    						<label for="file_install">请选择图标</label>
+    						<input type="file" name="file" id="file_install" value/><br />
+    						<span>是否显示在首页</span>
+    						<label for="show_index1">是</label>
+    						<input type="radio" name="show_index" id="show_index1" value="1" checked="checked"/>
+    						<label for="show_index2">否</label>
+    						<input type="radio" name="show_index" id="show_index2" value="0"/><br />
+    						<label for="index_limit">首页显示条数</label>
+    						<input type="number" name="index_limit" id="index_limit" value/>
+    						<input type="hidden"  name="token" id="token_install" value/>
+    						<input type="hidden" name="cls_id" id="id" value/><br />
+    						<input type="hidden" name="form_token" id="form_token1"/>
+    						<<!--input type="hidden" name="id" id="id" value="" />-->
+    						<button class="save">保存</button>
+    						<button class="cancel">取消</button>
+    					</form>
+    					<div class="infos"></div>
+    				</div>
+
+
+                    <div id="drafts">
+                        <div>
+                            <div class="msg_content">
+                                <div class="info_title">
+                                    <div>条目列表(共<span class="total_drafts">0</span>条)</div>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>封面图</td>
+                                            <td>标题</td>
+                                            <td>栏目</td>
+                                            <td>保存时间</td>
+                                            <td>操作</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="drafts_content">
+
+                                    </tbody>
+                                </table>
+                                <ul class="fenye"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+				<!--遮罩层-->
+				<div class="modal_news">
+					<div class="modal_news_content">
+						<!--头部-->
+						<div class="modal_news_title">
+							<span class='return'><img src="/img/返回.svg" alt="" /></span>
+							<span>资讯/新建图文信息</span>
+						</div>
+
+						<!--表单数据-->
+					<form id="form">
+
+						<!--封面图片-->
+						<div class="modal_news_img_onload">
+							<p><span>封面上传</span><span>图片大小建议尺寸：240像素＊134像素</span><span>不超过200K</span></p>
+							<input type="file" name="file" id="img"/>
+							<div id="result" style="width:300px;margin-top:10px"></div>
+						</div>
+
+						<div class="modal_news_info">
+							<!--标题-->
+							<label for="news_title">标题</label>
+							<input type="text" placeholder="请在这里输入标题(最多40字)" id="news_title" name="title" maxlength="40"/>
+
+							<!--发布日期-->
+							<div class="form-group">
+								<label for="publish_time">发布日期</label>
+								<input type="text"  id="publish_time" name="publish_time"/>
+							</div>
+							<!--小图or大图-->
+							<!--<input type="hidden" name="is_big_img" value="0"/>-->
+							<div class="form-group" id="pic">
+								<label for="is_big_img1">小图</label><input type="radio" name="is_big_img" id="is_big_img1" value="0" checked="checked"/>
+								<label for="is_big_img2">大图</label><input type="radio" name="is_big_img" id="is_big_img2" value="1"/>
+							</div>
+							<!--公布范围-->
+							<div class="form-group" style="height:40px;line-height:40px">
+								<span style="display:inline-block;width:150px;text-align:right">公布范围</span>
+								<label for="all">所有用户</label><input type="radio" name="scope" value="0" id="all" checked="checked"/>
+								<label for="appoint">指定用户</label><input type="radio" name="scope" value="1" id="appoint"/>
+								<input type="text" id="assign_phone" name="assign_phone" placeholder="请输入手机号码 用,分开" style="width:300px"/>
+							</div>
+
+							<!--文章作者-->
+							<div class="form-group">
+								<label for="author">文章作者</label>
+								<input type="text" name="author" id="author" value="黄金先生"/>
+							</div>
+
+
+							<!--阅读量、点击量、token、content-->
+							<div class="form-group">
+								<label for="read_count">阅读量</label><input type="number" id="read_count" name="read_count"/>
+								<label for="good_count">点赞量</label><input type="number" id="good_count" name="good_count"/>
+								<input type="hidden" id="token" name="token" value/>
+								<input type="hidden" class="cls_id" name="cls_id" value/>
+								<input type="hidden" name="content" id = "d_content" value />
+								<input type="hidden" name="tags" id="tags" value/>
+								<input type="hidden" name="form_token" id="form_token" value/>
+								<input type="hidden" name="id" id="newsid" value>
+                <input type="hidden" name="draft_id" id="draft_id" value>
+                <input type="hidden" name="img_url" id="img_url" value>
+							</div>
+
+							 <div id="editor-container" class="container">
+        						<div id="editor-trigger"></div>
+        						<!-- <textarea id="editor-trigger" style="display:none;">
+            					<p>请输入内容...</p>
+        						</textarea> -->
+   							 </div>
+
+   							<!-- <div class="form-group">
+   							 		<div style="float: left;line-height: 28px">资讯标签</div>
+   							 		<ul class="news_tabs">
+   							 		</ul> <br /><br />
+   							 		<div>添加标签</div>
+   							 		<input type="text" placeholder="不多于5个字符" maxlength="5" name="name" id="name" value/>
+   							 		<input type="hidden" name="token" id="token_tab" value/>
+   							 		<button  id="add_tab" disabled="disabled">点击确认添加</button>
+
+
+
+
+   							 </div>-->
+
+   							 <div class="form-group" style="overflow: hidden;">
+   							 	<div class="tabname">标签</div>
+   							 	<div>
+   							 		<div class="tabChecked"></div>
+   							 		<input type="text" maxlength="5" id="name"/>
+   							 	</div>
+   							 </div>
+   							 <div class="form-group" style="overflow: hidden">
+   							 	<span class="commontabname">常用标签</span>
+   							 	<div class="commonTab"></div>
+   							 </div>
+
+   							<!-- 相关文章推荐-->
+   							<div class="form-group" style="height:40px;line-height:40px">
+								<span style="display:inline-block;width:150px;text-align:right">相关文章推荐</span>
+								<label for="open">开启</label><input type="radio" name="open_related" value="1" id="open" checked="checked"/>
+								<label for="close">关闭</label>  <input type="radio" name="open_related" value="0" id="close"/>
+							</div>
+
+
+						</div>
+						<div class="modal_news_option">
+							<!--<span class="content_ask">检查内容</span>-->
+                            <button id="add_drafts">保存至草稿</button>
+							<button id="release">发布</button>
+						</div>
+						<div class="info"></div>
+						</form>
+					</div>
+				</div>
+
+
+                <!--查看评论遮罩层-->
+				<div class="view">
+					<div>
+						<div class="clear_">关闭</div>
+						<div class="view_title"></div>
+						<div>
+                            <input type="checkbox" name="" id="contorl_switch">
+                            <label for="contorl_switch">仅看精品留言</label><br>
+                            <span style="color: red; font-size: 12px;">提示：只有设置为精选的留言才会APP客户端展示。</span>
+                        </div>
+
+						<ul id="view">
+							<li>
+								<dl>
+									<dt><img src="" alt="" /></dt>
+									<dd>用户名：<span></span></dd>
+								</dl>
+								<div></div>
+								<div><span class="delete">删除</span></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+
+
+				<!--删除-->
+				<div class="queren">
+    				<div>
+    					<h3>确定要删除吗</h3>
+    					<div class="ok">确定</div>
+    				</div>
+    			</div>
+
+                <!-- 删除草稿 -->
+                <div class="modal_drafts">
+                    <div>
+                        <h3>删除资讯</h3>
+                        <div>标题：<span id="draft_name"></span></div>
+                        <div>
+                            <span class="cancel_draft_delete">取消</span>
+                            <span id="draft_delete">确认</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="saveDraft">
+                  <div class="draftContent">
+                    <h3>是否保存为草稿？</h3>
+                    <div>
+                      <span id="cancelDraft">放弃</span>
+                      <span id="saveDraft">保存</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 本地图片遮罩 -->
+                <div class="modal_localImg">
+                  <div class="localImg_container">
+                    <div class="localHeader">
+                      <span>请选择图片</span>
+                      <select  id="localSelect">
+
+                      </select>
+						<div id="localCancel" style="float:right;padding: 6px 12px;background: #58B7FF;color: #fff;border-radius: 4px;cursor: pointer">
+							退出
+						</div>
+
+					</div>
+                    <div class="localContent">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                </div>
+
+				<script src="/js/news.js"></script>
+				<script>
+					var editor=new wangEditor('editor-trigger');
+
+					/*以下为配置内容*/
+					 // 上传图片
+        			 editor.config.uploadImgUrl ='/common/upload';
+        			// 将显示方式改为 icon
+					editor.config.emotionsShow = 'icon';
+					editor.config.uploadParams = {
+            			// token1: 'abcde',
+            			// token2: '12345'
+       				 };
+        			editor.config.uploadHeaders = {
+           				 // 'Accept' : 'text/x-json'
+       				 }
+        			editor.config.lineheight = {}
+
+        			editor.create();
+					// 初始化编辑器的内容
+    				editor.$txt.html('<p>开始编辑...</p>');
+
+					var html;/*,text,imgs;	*/
+					editor.onchange=function(){
+						 // 编辑区域内容变化时，实时打印出当前内容
+						/*console.log(this.$txt.html());*/
+						html=this.$txt.html();
+						//console.log(html);
+						/* text=this.$txt.text();
+						 imgs=this.$txt.find('img');*/
+						$('#d_content').val(html);
+					}
+
+
+				</script>

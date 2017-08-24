@@ -1,0 +1,204 @@
+/*
+* @Author: Marte
+* @Date:   2017-06-29 09:21:00
+* @Last Modified by:   Marte
+* @Last Modified time: 2017-07-21 15:10:25
+*/
+@charset "utf-8";
+
+/* 栏目设置 */
+.buildColInstall{
+  display: table;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: #1E88E5;
+  color: #fff;
+  margin: 20px auto;
+  cursor: pointer;
+}
+#colInstallForm{
+  width: 90%;
+  margin: 0 auto;
+  display: none;
+}
+.form-control{
+  width: 100%;
+  padding: 10px 0;
+  overflow: hidden;
+}
+.form-text{
+  display: inline-block;
+  width: calc(100% - 129px);
+  padding: 6px;
+  border-radius: 4px;
+  outline: 0;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+.form-control label{
+  text-align: right;
+  width: 100px;
+  padding-right: 5px;
+}
+#cancelFormIntall,
+#saveFormIntall{
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: #1E88E5;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+#saveFormIntall{
+  -webkit-appearance: none;
+  border: 0;
+}
+#cancelFormIntall{
+  margin-left: 100px;
+}
+
+/* 频道内容 */
+.info_recording > li{
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+  padding: 6px 0;
+}
+.info_recording > li > div{
+  display: flex;
+  flex-direction: row;
+}
+.info_recording > li > div:first-child{
+  justify-content: space-between;
+  align-items: center;
+}
+.info_recording > li > div:first-child > div:first-child{
+  width: 100px;
+}
+.info_recording > li > div:first-child > div:nth-child(2){
+  width: 300px;
+}
+.info_recording > li > div:first-child > div:first-child > img{
+  width: 100%;
+}
+.info_recording > li > div:nth-child(2) > div{
+  width: 800px;
+}
+.recording_edit,
+.recording_delete,
+.editlive,
+.deletelive{
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 6px;
+  cursor: pointer;
+}
+/* 频道表单 */
+#channelFormPage,
+#liveform{
+  position: absolute;
+  left: 0;
+  top: 90px;
+  right: 0;
+  background: #fff;
+  min-height: calc(100vh - 90px);
+}
+#channelTitle{
+  border: none;
+  width: 70%;
+  font-size: 20px;
+  padding: 6px 8px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+  outline: none;
+}
+#channelForm label{
+  text-align: right;
+  width: 100px;
+}
+.form-group textarea{
+  padding: 6px 8px;
+  vertical-align: middle;
+  margin-left: 20px;
+  width: 70%;
+}
+#channelFormPage{
+  display: none;
+}
+#colContent span{
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  margin-left: 6px;
+}
+#title{
+  padding: 6px 8px;
+  vertical-align: middle;
+  margin-left: 20px;
+  width: 70%;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  outline: none;
+}
+.loading{
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .8);
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  padding-top: 150px;
+}
+.indexShow,
+.comment{
+  cursor: pointer;
+}
+.delete,
+.edit{
+  display: inline-block!important;
+  margin-bottom: 15px;
+  color: #333!important;
+  background: #fff!important;
+  border: 1px solid #ddd;
+}
+.editContent{
+  width: 70%;
+  border-radius: 4px;
+  height: 40px;
+  padding: 10px 5px;
+  vertical-align: middle;
+  margin-left: 150px;
+}
+.submit{
+  padding: 5px 10px;
+  background: #1E88E5;
+  color: #fff;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.dialog{
+  display: none;
+}
+.videobtn{
+  padding: 6px 12px;
+  border: 1px solid #999;
+  text-align: center!important;
+  margin-left: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#videoFile{
+  visibility: hidden;
+}
+#liveform label{
+  text-align: right;
+}

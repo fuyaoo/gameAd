@@ -19,8 +19,14 @@
         <mvc:interceptor>
             <mvc:mapping path="/gameAd/**" />
             <mvc:exclude-mapping path="/gameAd/index" />
+            <mvc:exclude-mapping path="/gameAd/admin/*" />
+            <mvc:exclude-mapping path="/gameAd/login" />
             <mvc:exclude-mapping path="/weixin/getcode" />
             <bean class="com.gameAd.maker.intercepter.LoginIntercepter" />
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/gameAd/admin/*" />
+            <bean class="com.gameAd.maker.intercepter.HtmlIntercepter" />
         </mvc:interceptor>
     </mvc:interceptors>
     <mvc:annotation-driven>
@@ -59,6 +65,7 @@
         <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
         <property name="prefix" value="/WEB-INF/views" />
         <property name="suffix" value=".html" />
+        <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
     <mvc:resources location="/WEB-INF/statics/js/" mapping="/js/**"/>

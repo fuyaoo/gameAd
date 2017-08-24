@@ -1,0 +1,113 @@
+@charset "utf-8";
+.app{
+	overflow: hidden;
+}
+.app>div{
+	float: left;
+	width: 50%;
+}
+label{
+	width: 100px;
+	color: #000;
+	text-align: right;
+}
+.input{
+	display: inline-block;
+	width:400px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	/*outline: medium;*/
+}
+/*.input:focus{
+	box-shadow: 0px 0px 3px  #1E90FF;
+}*/
+textarea{
+	margin-left: 20px;
+	padding: 6px 8px;
+	width: 400px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: none;
+}
+button{
+	margin-left: 125px;
+	padding: 4px 10px;
+	background: #1E90FF;
+	border:0;
+	color: #fff;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.appShareFile,
+.appShareImg,
+.filePackage{
+	float: left;
+}
+.appShareImg{
+	margin-left: 25px;
+	width: 160px;
+	height: 120px;
+	border: 1px solid #eee;
+	overflow: hidden;
+	margin-top: -100px;
+}
+
+.appShareImg img{
+	width: 100%;
+}
+.filePackage{
+	margin-left: 25px;
+	width: 100px;	
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	font-size: 12px;
+	line-height: 24px;
+	background: #3A98D8;
+	color: #fff;
+	border-radius: 5px;
+}
+.filePackage input{
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	position: absolute;	
+}
+.appPreview1{
+	box-sizing: border-box;
+	padding: 100px;
+	overflow: hidden;
+}
+/*.appPreview{
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+	overflow: hidden;
+}*/
+.appPreview>div{
+	float: left;
+}
+.appPreview>div:first-child{
+	width: 200px;	
+}
+.appPreview>div:first-child>div:first-child>div:first-child{
+	line-height:30px;
+	font-size:16px;
+	width: 100%;
+	white-space: nowrap;
+	overflow:hidden;
+}
+.appPreview>div:first-child>div:first-child>div:nth-child(2){
+	line-height: 20px;
+	font-size: 12px;
+	height: 40px;
+	overflow: hidden;
+}
+.appPreview>div:nth-child(2){
+	width:120px;
+	overflow: hidden;
+}
+.appPreview>div:nth-child(2)>img{
+	width: 100%;
+}

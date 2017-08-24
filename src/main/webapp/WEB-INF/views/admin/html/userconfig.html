@@ -1,0 +1,55 @@
+<link rel="stylesheet" type="text/css" href="/css/userquery.css">
+<input type="hidden" name="" class="form_token">
+<ul class="msg_option">
+  <li class="active">用户查询</li>
+</ul>
+<div class="group">
+  <div>
+    <div class="groupconfig">
+      <div>分组管理</div>
+      <div>
+        <span>当前共<b id="groupTotal"></b>个分组</span>
+        <span id="addGroup">增加分组</span>
+        <form id="addGroupBox" style="display: none">
+          <input type="text" id="group_name" name="group_name" placeholder="分组名称最多10个字符" /><br>
+          <input type="hidden" name="form_token" class="form_token">
+          <input type="hidden" name="token" class="token">
+          <!-- <input type="reset" name="" class="reset" style="visibility: hidden; width: 1px"> -->
+          <button class="ok" id="submitGroup">确定</button><span class="cancel">取消</span>
+        </form>
+      </div>
+    </div>
+    <div>
+      <ul id="groupUl">
+        <li><span>1</span><span><b></b></span><span>3</span></li>
+        <li><span>1</span><span>2</span><span>3</span></li>
+      </ul>
+      <span>说明：每个用户只能被分配至一个分组</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="tagconfig">
+      <div>标签管理</div>
+      <div>
+        <span>当前共<b id="tagTotal">0</b>个标签</span>
+        <span id="addTag">增加标签</span>
+        <form id="addTagBox" style="display: none">
+          <input type="text" id="tag_name" name="tag_name" placeholder="标签名称最多10个字符" /><br>
+          <input type="hidden" name="form_token" class="form_token">
+          <input type="hidden" name="token" class="token">
+          <!-- <input type="reset" name="" class="reset" style="visibility: hidden; width: 1px"> -->
+          <button class="ok" id="submitTag">确定</button><span class="cancel">取消</span>
+        </form>
+      </div>
+    </div>
+    <div>
+      <ul id="tagUl">
+        <li></li>
+      </ul>
+      <span>说明：每个用户可被分配多个标签</span>
+    </div>
+  </div>
+</div>
+<script src="/js/userconfig.js"></script>
+

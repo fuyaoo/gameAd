@@ -1,0 +1,209 @@
+<link rel="stylesheet" type="text/css" href="/css/userquery.css">
+<ul class="msg_option">
+  <li class="active">用户查询</li>
+</ul>
+<div class="agent">
+  <div>
+    <div class="query">查询条件</div>
+    <form id="agentForm">
+      <div>
+        <div>
+          <label for="userName">账号</label>
+          <input name="userName" id="userName" />
+        </div>
+        <div>
+          <label for="nickName">昵称</label>
+          <input name="nickName" id="nickName" />
+        </div>
+        <div>
+          <label for="uid">UID：</label>
+          <input name="uid" id="uid" />
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <label for="userGroup" >分组：</label>
+          <select name="groupId" id="groupId">
+            <option value="">1</option>
+          </select>
+        </div>
+        <div>
+          <label for="acctNo">交易编码：</label>
+          <input type="" name="acctNo" id="acctNo">
+        </div>
+        <div>
+          <label for="">注册时间：</label>
+          <input type="" name="regStart" id="regStart">~<input type="" name="regEnd" id="regEnd">
+        </div>
+      </div>
+
+       <div>
+        <div>
+         <label for="">标签：</label>
+          <select name="tagId" id="tagId">
+            <option value=""></option>
+          </select>
+        </div>
+        <!-- <div>
+         <label for="">上次登录时间：</label>
+          <input type="" name="loginStart" id="loginStart">~<input type="" name="loginEnd" id="loginEnd">
+        </div> -->
+        <div>
+         <input type="hidden" name="token" class="token">
+          <span id="userQuery">查询</span>
+          <!-- <button id="userreporthide" style="visibility: hidden;">导出</button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="queryResult">
+    <div>查询结果</div>
+    <div>
+      <!-- <span>为您查询到45,345位用户，已选中440位用户</span> -->
+      <span id="userreport">导出用户数据</span>
+      <span id="someconfig">批量配置</span>
+    </div>
+  </div>
+  <table class="agentTable">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="allchecked"/></th>
+        <th>头像</th>
+        <th>用户名</th>
+        <th>昵称</th>
+        <th>UID</th>
+        <th>交易编码</th>
+        <th>预留手机号</th>
+        <th>姓名</th>
+        <th>分组</th>
+        <th>标签</th>
+        <th>经纪人</th>
+        <th>注册时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="agentTbody">
+
+    </tbody>
+  </table>
+  <ul class="pages">
+  </ul>
+</div>
+<div class="modalAgent">
+  <div>
+    <div class="query">基本信息</div>
+    <ul>
+      <li>
+        <h3>黄金先生账号</h3>
+        <div>
+          <div>
+            用户昵称：<span id="nickName1">N/A</span>
+          </div>
+          <div>
+            UID：<span id="Uid">N/A</span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            账号：<span id="userName1">N/A</span>
+          </div>
+          <div>
+            归属地：<span>N/A</span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            姓名：<span>N/A</span>
+          </div>
+          <div>
+            注册时间：<span id="createTime1">N/A</span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            邮箱：<span id="email1">N/A</span>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <h3>交易账号</h3>
+        <div>
+          <div>
+            交易编码：<span id="acctNo1">N/A</span>
+          </div>
+          <div>
+            开户时间：<span id="openTime1">N/A</span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            姓名：<span>N/A</span>
+          </div>
+          <div>
+            预留手机：<span id="bankPhone1">N/A</span>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <h3>行为记录</h3>
+
+      </li>
+    </ul>
+  </div>
+  <div>
+    <div class="query">用户运营</div>
+    <form id="formconfig">
+      <input type="hidden" name="token" class="token" />
+      <input type="hidden" name="form_token" class="form_token" />
+      <input type="hidden" name="uids" id="uids" />
+      <ul>
+        <li>
+          <div>
+            <h3>分组</h3>
+            <div>
+              <div>设置分组：
+                <select name="group_id" id="groupId1">
+                </select>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div>
+            <h3>标签</h3>
+            <div>
+              <div>设置标签：
+                <select name="tags" id="tagId1" multiple="multiple">
+                </select>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div>
+            <h3>经纪人</h3>
+            <div>
+              <div>设置经纪人：
+                <select id="broker1" name="broker_id">
+                </select>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </form>
+    <div style="text-align: center">
+      <button id="saveconfig">保存</button><span id="cancelconfig">取消</span>
+    </div>
+  </div>
+</div>
+<script src="/js/userquery.js"></script>

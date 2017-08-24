@@ -1,0 +1,42 @@
+@charset "utf-8";
+.login{
+	width: 300px;
+	height: 250px;
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	margin-left: -150px;
+	margin-top: -150px;
+	box-shadow: 0px 0px 6px #999;
+	border-radius: 8px;
+}
+h3{
+	text-align: center;
+}
+input{
+	display: block;
+	width: 250px;
+	padding: 6px 10px;
+	margin:15px;
+	outline: medium;
+	border:1px solid #ccc;
+	border-radius: 5px;
+}
+input:focus{
+	box-shadow: 0px 0px 3px #1E90FF;
+}
+button{
+	width: 270px;
+	padding: 6px 0;
+	margin:15px;
+	outline: medium;
+	background: dodgerblue;
+	border: 0;
+	color: #fff;
+	border-radius: 5px;
+}
+.info{
+	text-align: center;
+	color: red;
+	font-size: 12px;
+}

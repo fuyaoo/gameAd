@@ -1,0 +1,108 @@
+<link rel="stylesheet" type="text/css" href="/css/imglist.css">
+<div id="img_library">
+    <ul class="msg_option">
+        <li class="active">图片</li>
+    </ul>
+    <div class="msg_content">
+        <div class="info_title">
+            <div>当前状态（共<span id="total">0</span>张图片）</div>
+            <div id="img_online">上传</div>
+        </div>
+    </div>
+    <div id="img_content">
+        <div>
+            <div id="allImg" style="cursor: pointer">全部图片</div>
+            <ul id="img_content_list">
+            </ul>
+            <div class="build_img_group">
+              <span id="build_img_group">+新建分组</span>
+              <div class="build_img_form"  style="display: none">
+                <form action="" id="build_img_form">
+                  <input type="text" name="group_name" placeholder="请输入分组名称">
+                  <input type="hidden" name="token" id="build_group_token" value>
+                  <input type="hidden" name="form_token" class="form_token">
+                  <span id="cancel_build_group">取消</span>
+                  <button id="get_group_btn">确认</button>
+                  <div class="img_group_info"></div>
+                </form>
+              </div>
+            </div>
+        </div>
+        <div id="img_content_item">
+          <form action="" id="deleteAllImg">
+            <div class="item_header">
+                <div class="item_checked_name"></div>
+                <div>
+                    <input type="checkbox" id="select" value="1"/>
+                    <label for="select">全选</label>
+                    <span class="moveGroup">
+                      移动分组
+                      <div class="modal_move" style="display: none">
+                        <select name="group_id" id="moveGroupOption"></select>
+                        <div>
+                          <span class="cancel_move">取消</span>
+                          <button id="moveGroup">确认</button>
+                        </div>
+                        <div class="move_group_info">
+
+                        </div>
+                      </div>
+                    </span>
+
+                    <span class="deleteAllImgBtn">
+                      删除
+                      <div class="modal_delete" style="display: none">
+                        <div>删除选中的图片？</div>
+                        <div>
+                          <span class="cancel_delete">取消</span>
+                          <button id="deleteAllImgBtn">确认</button>
+                        </div>
+                        <div class="delete_img_info"></div>
+                      </div>
+                    </span>
+                    <input type="hidden" name="token" id="deleteAllImgToken">
+                    <input type="hidden" name="form_token" class="form_token">
+                </div>
+            </div>
+            <div id="item_content">
+
+            </div>
+          </form>
+
+        </div>
+    </div>
+</div>
+<!-- 批量图片上传遮罩 -->
+<div class="modal" style="display: none">
+  <div class="modal_contnet">
+  <form action="" id="onloadImg">
+    <div class="modal_header">
+      <span>本地图片</span>
+      <select name="group_id" id="selectList">
+
+      </select>
+    </div>
+    <div class="files">
+        <label><input type="file" name="file1" value="" class="imgFile"></label>
+        <label><input type="file" name="file2" value="" class="imgFile"></label>
+        <label><input type="file" name="file3" value="" class="imgFile"></label>
+        <label><input type="file" name="file4" value="" class="imgFile"></label>
+        <label><input type="file" name="file5" value="" class="imgFile"></label>
+        <label><input type="file" name="file6" value="" class="imgFile"></label>
+        <label><input type="file" name="file7" value="" class="imgFile"></label>
+        <label><input type="file" name="file8" value="" class="imgFile"></label>
+        <label><input type="file" name="file9" value="" class="imgFile"></label>
+        <label><input type="file" name="file10" value="" class="imgFile"></label>
+        <div>最多可上传10张图片，每张图片尺寸不得超过500kb。</div>
+        <input type="hidden" id="token"  name="token">
+        <input type="hidden" name="form_token" class="form_token">
+        <div>
+          <span id="cancelOnload">取消</span>
+          <button id="onlineImgBtn">确认</button>
+        </div>
+        <div class="getImg_info"></div>
+    </div>
+    </form>
+  </div>
+</div>
+<script src="/js/imglist.js"></script>
