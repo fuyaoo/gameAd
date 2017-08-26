@@ -14,60 +14,51 @@
 <div class="header">
     <div>后台管理系统</div>
     <div class="out">退出</div>
-    <div>管理员</div>
+    <div class="manager"></div>
 </div>
 <div class="content">
     <div class="sidebar">
-        <div>内容编辑</div>
+        <div>功能导航</div>
         <ul class="siderbar_option">
             <li>
-                &nbsp;&nbsp;移动客户端运维
+                &nbsp;&nbsp;>代理专区
                 <ul class="ul">
-                    <li id="banner" class="active">BANNER</li>
-                    <li id="finance">财经日历</li>
-                    <li id="news">资讯</li>
-                    <li id="notice">公告</li>
-                    <li id="push">Push</li>
-                    <li id="make">吐槽回复</li>
-                    <li id="imglist">图片库</li>
-                    <li id="app">app分享设置</li>
+                    <li id="operatorRecharge">添加代理金币</li>
+                    <li id="operatorRecard">添加代理房卡</li>
                 </ul>
             </li>
             <li>
-                &nbsp;&nbsp;视频专区
+                &nbsp;&nbsp;>玩家专区
                 <ul class="ul">
-                    <li id="recording">录播</li>
-                    <li id="live">直播</li>
-                    <li id="speaker">主讲人</li>
+                    <li id="playerRecharge">添加代理金币</li>
+                    <li id="playerRecard">添加代理房卡</li>
                 </ul>
             </li>
             <li>
-                &nbsp;&nbsp;经纪人
+                &nbsp;&nbsp;>代理关系
                 <ul class="ul">
-                    <li id="agent">经纪人查询</li>
-                    <li id="statement">佣金报表</li>
-                    <li id="tixian">提现审批</li>
-                    <li id="settingfile">结算文件</li>
+                    <li id="operatorRelation">关系查询</li>
                 </ul>
             </li>
             <li>
-                &nbsp;&nbsp;用户统计
+                &nbsp;&nbsp;>分润统计
                 <ul class="ul">
-                    <li id="market">营销统计</li>
-                    <li id="etf">etf</li>
-                    <li id="userquery">用户查询</li>
-                    <li id="userconfig">配置管理</li>
-                    <li id="channel">渠道统计</li>
-                    <li id="sxe">反作弊</li>
+                    <li id="rateStatistics">分润统计</li>
+                    <li id="operatorRate">代理分润</li>
                 </ul>
             </li>
             <li>
-                &nbsp;&nbsp;Android版本维护
+                &nbsp;&nbsp;>提现管理
                 <ul class="ul">
-                    <li id="Edition">版本列表</li>
+                    <li id="withdrawMoney">提现列表</li>
                 </ul>
             </li>
-            <li>&nbsp;&nbsp;系统管理</li>
+            <li>
+                &nbsp;&nbsp;>系统管理
+                <ul class="ul">
+                    <li id="ModifyPassword">修改密码</li>
+                </ul>
+            </li>
         </ul>
     </div>
     <div class="msg">
@@ -87,8 +78,10 @@
 
 
 <script type="text/javascript">
-    $('.msg').load('banner.html');
-
+    $(function(){
+        var username = sessionStorage.getItem("username");
+        $('.manager').html("当前登录管理员账号： "+username+"您好。");
+    });
 </script>
 </body>
 </html>

@@ -74,4 +74,17 @@ public class LoginController {
         }
         return resultObj;
     }
+
+    /**
+     * 登录
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj logout(HttpServletRequest request) {
+        ResultObj resultObj;
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        return resultObj;
+    }
 }

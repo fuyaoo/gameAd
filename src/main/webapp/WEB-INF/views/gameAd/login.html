@@ -17,6 +17,9 @@
 <script src="/js/jquery.js"></script>
 
 <script>
+    if(sessionStorage.getItem("token") != 0){
+        window.location.href="/gameAd/admin/index.html";
+    }
     $(document).keydown(function(event){
         if(event.keyCode==13){
             $("#btn").click();
@@ -45,6 +48,7 @@
                 if(obj.code=="100"){
                     console.log(obj.data);
                     sessionStorage.setItem("token", obj.data);
+                    sessionStorage.setItem("username", username);
 					sessionStorage.setItem("baseUrl", "http://localhost/");
                     window.location.href="/gameAd/admin/index.html";
                 }
