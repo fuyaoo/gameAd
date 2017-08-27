@@ -22,6 +22,7 @@
             <mvc:exclude-mapping path="/gameAd/admin/*" />
             <mvc:exclude-mapping path="/gameAd/login" />
             <mvc:exclude-mapping path="/weixin/getcode" />
+            <mvc:exclude-mapping path="/gameAd/tAgency/insert" />
             <bean class="com.gameAd.maker.intercepter.LoginIntercepter" />
         </mvc:interceptor>
         <mvc:interceptor>

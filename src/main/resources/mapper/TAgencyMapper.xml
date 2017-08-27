@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gameAd.maker.dao.TAgencyMapper">
+  <resultMap id="BaseResultMap" type="com.gameAd.maker.bean.TAgency">
+    <id column="AgencyID" jdbcType="INTEGER" property="agencyid" />
+    <result column="UserID" jdbcType="INTEGER" property="userid" />
+    <result column="UserName" jdbcType="NVARCHAR" property="username" />
+    <result column="ParentAgencyID" jdbcType="INTEGER" property="parentagencyid" />
+    <result column="NickName" jdbcType="NVARCHAR" property="nickname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    AgencyID, UserID, UserName, ParentAgencyID, NickName
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TAgency
+    where AgencyID = #{agencyid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from TAgency
+    where AgencyID = #{agencyid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gameAd.maker.bean.TAgency" useGeneratedKeys="true" keyColumn="AgencyID" keyProperty="agencyid">
+    insert into TAgency (UserID, UserName,
+      ParentAgencyID, NickName)
+    values ( #{userid,jdbcType=INTEGER}, #{username,jdbcType=NVARCHAR},
+      #{parentagencyid,jdbcType=INTEGER}, #{nickname,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gameAd.maker.bean.TAgency">
+    insert into TAgency
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="agencyid != null">
+        AgencyID,
+      </if>
+      <if test="userid != null">
+        UserID,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="parentagencyid != null">
+        ParentAgencyID,
+      </if>
+      <if test="nickname != null">
+        NickName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="agencyid != null">
+        #{agencyid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentagencyid != null">
+        #{parentagencyid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gameAd.maker.bean.TAgency">
+    update TAgency
+    <set>
+      <if test="userid != null">
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        UserName = #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentagencyid != null">
+        ParentAgencyID = #{parentagencyid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        NickName = #{nickname,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where AgencyID = #{agencyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gameAd.maker.bean.TAgency">
+    update TAgency
+    set UserID = #{userid,jdbcType=INTEGER},
+      UserName = #{username,jdbcType=NVARCHAR},
+      ParentAgencyID = #{parentagencyid,jdbcType=INTEGER},
+      NickName = #{nickname,jdbcType=NVARCHAR}
+    where AgencyID = #{agencyid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByMap" resultMap="BaseResultMap" parameterType="Map">
+    select
+    <include refid="Base_Column_List" />
+    from TAgency
+    <where>
+      <if test="username != null">
+        AND UserName = #{username}
+      </if>
+      <if test="agencyID != null">
+        AND AgencyID = #{agencyID}
+      </if>
+    </where>
+  </select>
+  <select id="selectListByMap" resultMap="BaseResultMap" parameterType="Map">
+    select
+    <include refid="Base_Column_List" />
+    from TAgency
+    <where>
+      <if test="parentagencyid != null">
+        AND ParentAgencyID = #{parentagencyid}
+      </if>
+    </where>
+  </select>
+</mapper>
