@@ -87,4 +87,42 @@ public class LoginController {
         resultObj = new ResultObj(ResultStatus.SUCCESS);
         return resultObj;
     }
+
+    /**
+     * 修改密码
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/resetPass", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj resetPass(HttpServletRequest request) {
+        ResultObj resultObj;
+        Map<String,Object> map = new HashMap<String ,Object>();
+        String username = request.getParameter("username");
+        String new_password = request.getParameter("new_password");
+        String old_password = request.getParameter("old_password");
+        if(TextUtils.isBlank(username) || TextUtils.isBlank(old_password) || TextUtils.isBlank(new_password)){
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
+            return resultObj;
+        }
+        map.put("username",old_password);
+        map.put("password", MD5Util.string2MD5(old_password));
+        WebManageAdmin webManageAdmin = webManageAdminService.selectByMap(map);
+        if(webManageAdmin !=null){
+            map.put("password", MD5Util.string2MD5(new_password));
+            int count = webManageAdminService.resetPass(map);
+            if(count > 0){
+                String token = username+"-"+new_password+"-"+formatter.format(new Date());
+                token = AESUtil.encrypt(token);
+                resultObj = new ResultObj(ResultStatus.SUCCESS);
+                resultObj.setData(token);
+            }else {
+                resultObj = new ResultObj(ResultStatus.FAILED);
+            }
+        }else {
+            resultObj = new ResultObj(ResultStatus.UID_NOT_EXIST);
+        }
+        return resultObj;
+    }
 }

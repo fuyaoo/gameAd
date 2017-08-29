@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gameAd.maker.bean.TAgency;
 import com.gameAd.maker.bean.TUsers;
+import com.gameAd.maker.bean.TWithdrawals;
 import com.gameAd.maker.bean.WebManageAdmin;
 import com.gameAd.maker.service.TAgencyService;
 import com.gameAd.maker.service.TUsersService;
+import com.gameAd.maker.service.TWithdrawalsService;
 import com.gameAd.maker.service.WebManageAdminService;
 import com.gameAd.maker.util.*;
 import org.slf4j.Logger;
@@ -18,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 代理 接口
@@ -33,10 +33,13 @@ public class TAgencyController {
 
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+    private final SimpleDateFormat M_FORMAT = new SimpleDateFormat("yyy-MM-dd");
     @Autowired
     TAgencyService tAgencyService;
     @Autowired
     TUsersService tUsersService;
+    @Autowired
+    TWithdrawalsService tWithdrawalsService;
 
     /**
      * 代理关系查询
@@ -154,9 +157,9 @@ public class TAgencyController {
             resultObj.setData(result);
         }else {
             TAgency tAgency = new TAgency();
-            tAgency.setNickname(tUsers.getNickname());
-            tAgency.setUserid(tUsers.getUserid());
-            tAgency.setUsername(tUsers.getUsername());
+            tAgency.setNickname("xxx");
+            tAgency.setUserid(1234);
+            tAgency.setUsername("WX_"+openid);
             tAgency.setParentagencyid(Integer.valueOf(parentagencyid));
             try{
                 tAgencyService.insert(tAgency);
@@ -164,6 +167,135 @@ public class TAgencyController {
                 resultObj = new ResultObj(ResultStatus.UID_EXIST);
                 return resultObj;
             }
+            resultObj = new ResultObj(ResultStatus.FAILED);
+        }
+        return resultObj;
+    }
+
+    /**
+     * 运营代理统计 or 代理分润查询
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/agentCount", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj agentCount(HttpServletRequest request) {
+        ResultObj resultObj;
+        JSONObject result = new JSONObject();
+        Map<String, Object> map = new HashMap<String, Object>();
+        String username = request.getParameter("username");
+        String agencyID = request.getParameter("agencyID");
+        if (!TextUtils.isBlank(username)) {
+            map.put("username", username);
+        }
+        if (!TextUtils.isBlank(agencyID)) {
+            map.put("agencyID", agencyID);
+        }
+        BigDecimal agentRateMoney = new BigDecimal(0).setScale(3,BigDecimal.ROUND_HALF_UP);
+        List<TAgency> list = tAgencyService.selectByMap(map);
+        result.put("agentArray", new JSONArray());
+        if (list != null) {
+            for (TAgency tAgency : list) {
+                JSONObject object = new JSONObject();
+                object.put(String.valueOf(tAgency.getAgencyid()), new JSONObject());
+                JSONObject jobject = object.getJSONObject(String.valueOf(tAgency.getAgencyid()));
+                jobject.put("tAgency", tAgency); //原始代理对象
+                List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
+                for (TAgency oneAgency : firstLevelList) {
+                    /**
+                     * 根据用户名查看 该游戏玩家充值了多少钱 计算分润(充值金额 * 分润利率)情况
+                     */
+                    username = oneAgency.getUsername();
+                    agentRateMoney.add(new BigDecimal(0));
+                    List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
+                    for (TAgency twoAgency : secondLevelList) {
+                        username = twoAgency.getUsername();
+                        agentRateMoney.add(new BigDecimal(0));
+                        List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
+                        for (TAgency threeAgency : thirdLevelList) {
+                            username = threeAgency.getUsername();
+                            agentRateMoney.add(new BigDecimal(0));
+                        }
+                    }
+                }
+                jobject.put("agentRateMoney",agentRateMoney);
+                result.getJSONArray("agentArray").add(object);
+            }
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+            resultObj.setData(result);
+        } else {
+            resultObj = new ResultObj(ResultStatus.FAILED);
+        }
+        return resultObj;
+    }
+
+    /**
+     * 提现管理
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/withdrawalsManage", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj withdrawalsManage(HttpServletRequest request) {
+        ResultObj resultObj;
+        JSONObject result = new JSONObject();
+        Map<String, Object> map = new HashMap<String, Object>();
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        String username = request.getParameter("username");
+        String agencyID = request.getParameter("agencyID");
+        if (!TextUtils.isBlank(username)) {
+            map.put("username", username);
+        }
+        if (!TextUtils.isBlank(agencyID)) {
+            map.put("agencyID", agencyID);
+        }
+        if(TextUtils.isBlank(startTime) || TextUtils.isBlank(endTime)){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            endTime = M_FORMAT.format(calendar.getTime());
+            calendar.set(Calendar.MONTH,-3);
+            startTime = M_FORMAT.format(calendar.getTime());
+        }
+        map.put("startTime",startTime);
+        map.put("endTime",endTime);
+        List<TWithdrawals> list = tWithdrawalsService.selectByMap(map);
+        if(list != null){
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+            resultObj.setData(list);
+        } else {
+            resultObj = new ResultObj(ResultStatus.FAILED);
+        }
+        return resultObj;
+    }
+
+    /**
+     * 提现 新增
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/withdrawalsInsert", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj withdrawalsInsert(HttpServletRequest request) {
+        ResultObj resultObj;
+        String username = request.getParameter("username");
+        String agencyID = request.getParameter("agencyID");
+        String money = request.getParameter("money");
+        if (TextUtils.isBlank(username) || TextUtils.isBlank(agencyID) || TextUtils.isBlank(money)) {
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
+            return resultObj;
+        }
+        TWithdrawals tWithdrawals = new TWithdrawals();
+        tWithdrawals.setAgencyid(Integer.valueOf(agencyID));
+        tWithdrawals.setUsername(username);
+        tWithdrawals.setMoney(new BigDecimal(money).setScale(3,BigDecimal.ROUND_HALF_UP));
+        tWithdrawals.setCreatetime(new Date());
+        tWithdrawals.setStatus(0);
+        int count = tWithdrawalsService.insert(tWithdrawals);
+        if(count > 0 ){
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+        } else {
             resultObj = new ResultObj(ResultStatus.FAILED);
         }
         return resultObj;

@@ -223,4 +223,10 @@
       </if>
     </where>
   </select>
+  <update id="resetPass" parameterType="Map">
+    update Web_manage_admin
+    set
+      Password = #{password,jdbcType=NVARCHAR}
+    where UserName = #{username}
+  </update>
 </mapper>

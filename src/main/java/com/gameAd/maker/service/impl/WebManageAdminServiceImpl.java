@@ -48,4 +48,9 @@ public class WebManageAdminServiceImpl implements WebManageAdminService{
     public WebManageAdmin selectByMap(Map<String, Object> map) {
         return webManageAdminMapper.selectByMap(map);
     }
+
+    @Override
+    public int resetPass(Map<String, Object> map) {
+        return webManageAdminMapper.resetPass(map);
+    }
 }

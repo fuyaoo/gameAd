@@ -18,4 +18,6 @@ public interface WebManageAdminMapper {
     int updateByPrimaryKey(WebManageAdmin record);
 
     WebManageAdmin selectByMap(Map<String, Object> map);
+
+    int resetPass(Map<String, Object> map);
 }

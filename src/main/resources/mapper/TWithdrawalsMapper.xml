@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gameAd.maker.dao.TWithdrawalsMapper">
+  <resultMap id="BaseResultMap" type="com.gameAd.maker.bean.TWithdrawals">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="AgencyID" jdbcType="INTEGER" property="agencyid" />
+    <result column="UserName" jdbcType="NVARCHAR" property="username" />
+    <result column="Money" jdbcType="DECIMAL" property="money" />
+    <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="AuditingTime" jdbcType="TIMESTAMP" property="auditingtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, AgencyID, UserName, Money, Status, CreateTime, AuditingTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TWithdrawals
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from TWithdrawals
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gameAd.maker.bean.TWithdrawals" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+    insert into TWithdrawals (AgencyID, UserName,
+      Money, Status, CreateTime, 
+      AuditingTime)
+    values (#{agencyid,jdbcType=INTEGER}, #{username,jdbcType=NVARCHAR},
+      #{money,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{auditingtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gameAd.maker.bean.TWithdrawals">
+    insert into TWithdrawals
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="agencyid != null">
+        AgencyID,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="money != null">
+        Money,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="auditingtime != null">
+        AuditingTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="agencyid != null">
+        #{agencyid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditingtime != null">
+        #{auditingtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gameAd.maker.bean.TWithdrawals">
+    update TWithdrawals
+    <set>
+      <if test="agencyid != null">
+        AgencyID = #{agencyid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        UserName = #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="money != null">
+        Money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditingtime != null">
+        AuditingTime = #{auditingtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gameAd.maker.bean.TWithdrawals">
+    update TWithdrawals
+    set AgencyID = #{agencyid,jdbcType=INTEGER},
+      UserName = #{username,jdbcType=NVARCHAR},
+      Money = #{money,jdbcType=DECIMAL},
+      Status = #{status,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      AuditingTime = #{auditingtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByMap" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TWithdrawals
+    <where>
+      <if test="username != null">
+        AND UserName = #{username,jdbcType=NVARCHAR}
+      </if>
+      <if test="agencyid != null">
+        AND AgencyID = #{agencyid,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+        AND CONVERT(varchar(100), CreateTime,23)  &gt;= #{startTime}
+      </if>
+      <if test="endTime != null">
+        AND CONVERT(varchar(100), CreateTime,23)  &lt;= #{endTime}
+      </if>
+    </where>
+  </select>
+</mapper>
