@@ -52,4 +52,14 @@ public class TWithdrawalsServiceImpl implements TWithdrawalsService{
     public List<TWithdrawals> selectByMap(Map<String, Object> map) {
         return tWithdrawalsMapper.selectByMap(map);
     }
+
+    @Override
+    public int updateByMap(Map<String, Object> map) {
+        return tWithdrawalsMapper.updateByMap(map);
+    }
+
+    @Override
+    public TWithdrawals selectLastByMap(Map<String, Object> map) {
+        return tWithdrawalsMapper.selectLastByMap(map);
+    }
 }

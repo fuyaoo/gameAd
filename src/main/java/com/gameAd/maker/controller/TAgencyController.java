@@ -2,14 +2,8 @@ package com.gameAd.maker.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.gameAd.maker.bean.TAgency;
-import com.gameAd.maker.bean.TUsers;
-import com.gameAd.maker.bean.TWithdrawals;
-import com.gameAd.maker.bean.WebManageAdmin;
-import com.gameAd.maker.service.TAgencyService;
-import com.gameAd.maker.service.TUsersService;
-import com.gameAd.maker.service.TWithdrawalsService;
-import com.gameAd.maker.service.WebManageAdminService;
+import com.gameAd.maker.bean.*;
+import com.gameAd.maker.service.*;
 import com.gameAd.maker.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -40,6 +33,8 @@ public class TAgencyController {
     TUsersService tUsersService;
     @Autowired
     TWithdrawalsService tWithdrawalsService;
+    @Autowired
+    Web_VChangeRecordService webVChangeRecordService;
 
     /**
      * 代理关系查询
@@ -191,7 +186,7 @@ public class TAgencyController {
         if (!TextUtils.isBlank(agencyID)) {
             map.put("agencyID", agencyID);
         }
-        BigDecimal agentRateMoney = new BigDecimal(0).setScale(3,BigDecimal.ROUND_HALF_UP);
+        long changeTax = 0;
         List<TAgency> list = tAgencyService.selectByMap(map);
         result.put("agentArray", new JSONArray());
         if (list != null) {
@@ -200,25 +195,31 @@ public class TAgencyController {
                 object.put(String.valueOf(tAgency.getAgencyid()), new JSONObject());
                 JSONObject jobject = object.getJSONObject(String.valueOf(tAgency.getAgencyid()));
                 jobject.put("tAgency", tAgency); //原始代理对象
+                map.put("parentagencyid", tAgency.getAgencyid());
                 List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
                 for (TAgency oneAgency : firstLevelList) {
                     /**
                      * 根据用户名查看 该游戏玩家充值了多少钱 计算分润(充值金额 * 分润利率)情况
                      */
                     username = oneAgency.getUsername();
-                    agentRateMoney.add(new BigDecimal(0));
+                    map.put("username", username);
+                    map.put("parentagencyid", oneAgency.getAgencyid()); //一级代理
+                    changeTax += webVChangeRecordService.selectByMap(map);
                     List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
                     for (TAgency twoAgency : secondLevelList) {
                         username = twoAgency.getUsername();
-                        agentRateMoney.add(new BigDecimal(0));
+                        map.put("username", username);
+                        map.put("parentagencyid", twoAgency.getAgencyid());
+                        changeTax += webVChangeRecordService.selectByMap(map);
                         List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
                         for (TAgency threeAgency : thirdLevelList) {
                             username = threeAgency.getUsername();
-                            agentRateMoney.add(new BigDecimal(0));
+                            map.put("username", username);
+                            changeTax += webVChangeRecordService.selectByMap(map);
                         }
                     }
                 }
-                jobject.put("agentRateMoney",agentRateMoney);
+                jobject.put("agentRateMoney",changeTax);
                 result.getJSONArray("agentArray").add(object);
             }
             resultObj = new ResultObj(ResultStatus.SUCCESS);
@@ -269,30 +270,28 @@ public class TAgencyController {
         return resultObj;
     }
 
+
     /**
-     * 提现 新增
+     * 提现 审核
      * @param request
      * @return
      */
-    @RequestMapping(value = "/withdrawalsInsert", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/withdrawalsUpdate", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
-    public ResultObj withdrawalsInsert(HttpServletRequest request) {
+    public ResultObj withdrawalsUpdate(HttpServletRequest request) {
         ResultObj resultObj;
-        String username = request.getParameter("username");
-        String agencyID = request.getParameter("agencyID");
-        String money = request.getParameter("money");
-        if (TextUtils.isBlank(username) || TextUtils.isBlank(agencyID) || TextUtils.isBlank(money)) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String id = request.getParameter("id");
+        String status = request.getParameter("status");
+        if (TextUtils.isBlank(id) || TextUtils.isBlank(status)) {
             LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
             resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
             return resultObj;
         }
-        TWithdrawals tWithdrawals = new TWithdrawals();
-        tWithdrawals.setAgencyid(Integer.valueOf(agencyID));
-        tWithdrawals.setUsername(username);
-        tWithdrawals.setMoney(new BigDecimal(money).setScale(3,BigDecimal.ROUND_HALF_UP));
-        tWithdrawals.setCreatetime(new Date());
-        tWithdrawals.setStatus(0);
-        int count = tWithdrawalsService.insert(tWithdrawals);
+        map.put("id",id);
+        map.put("status",status);
+        map.put("auditingtime",new Date());
+        int count = tWithdrawalsService.updateByMap(map);
         if(count > 0 ){
             resultObj = new ResultObj(ResultStatus.SUCCESS);
         } else {
@@ -300,4 +299,5 @@ public class TAgencyController {
         }
         return resultObj;
     }
+
 }

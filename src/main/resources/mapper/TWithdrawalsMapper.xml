@@ -133,4 +133,30 @@
       </if>
     </where>
   </select>
+  <update id="updateByMap" parameterType="Map">
+    update TWithdrawals
+    <set>
+      <if test="status != null">
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="auditingtime != null">
+        AuditingTime = #{auditingtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectLastByMap" parameterType="Map" resultMap="BaseResultMap">
+    select top 1
+    <include refid="Base_Column_List" />
+    from TWithdrawals
+    <where>
+      <if test="username != null">
+        AND UserName = #{username,jdbcType=NVARCHAR}
+      </if>
+      <if test="status != null">
+        AND Status = #{status,jdbcType=INTEGER}
+      </if>
+    </where>
+    ORDER BY AuditingTime DESC
+  </select>
 </mapper>

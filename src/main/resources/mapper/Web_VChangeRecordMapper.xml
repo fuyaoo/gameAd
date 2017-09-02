@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gameAd.maker.dao.Web_VChangeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.gameAd.maker.bean.Web_VChangeRecord">
+    <result column="RoomName" jdbcType="NVARCHAR" property="roomname" />
+    <result column="ServerIP" jdbcType="NVARCHAR" property="serverip" />
+    <result column="ServerInfoID" jdbcType="INTEGER" property="serverinfoid" />
+    <result column="GameTypeID" jdbcType="INTEGER" property="gametypeid" />
+    <result column="GameKindID" jdbcType="INTEGER" property="gamekindid" />
+    <result column="GameNameID" jdbcType="INTEGER" property="gamenameid" />
+    <result column="SocketPort" jdbcType="INTEGER" property="socketport" />
+    <result column="OnlineCount" jdbcType="INTEGER" property="onlinecount" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="EnableRoom" jdbcType="SMALLINT" property="enableroom" />
+    <result column="StopLogon" jdbcType="SMALLINT" property="stoplogon" />
+    <result column="IDSort" jdbcType="INTEGER" property="idsort" />
+    <result column="Version" jdbcType="INTEGER" property="version" />
+    <result column="ServiceName" jdbcType="NVARCHAR" property="servicename" />
+    <result column="VirtualUser" jdbcType="INTEGER" property="virtualuser" />
+    <result column="VirtualGameTime" jdbcType="INTEGER" property="virtualgametime" />
+    <result column="GameTime" jdbcType="INTEGER" property="gametime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="RoomID" jdbcType="INTEGER" property="roomid" />
+    <result column="DeskIndex" jdbcType="INTEGER" property="deskindex" />
+    <result column="Tax" jdbcType="INTEGER" property="tax" />
+    <result column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ChangeRecordUserID" jdbcType="INTEGER" property="changerecorduserid" />
+    <result column="UserIndex" jdbcType="INTEGER" property="userindex" />
+    <result column="UserID" jdbcType="INTEGER" property="userid" />
+    <result column="SrcPoint" jdbcType="BIGINT" property="srcpoint" />
+    <result column="SrcMoney" jdbcType="BIGINT" property="srcmoney" />
+    <result column="ChangePoint" jdbcType="BIGINT" property="changepoint" />
+    <result column="ChangeMoney" jdbcType="BIGINT" property="changemoney" />
+    <result column="ChangeTax" jdbcType="BIGINT" property="changetax" />
+    <result column="UserName" jdbcType="NVARCHAR" property="username" />
+    <result column="NickName" jdbcType="NVARCHAR" property="nickname" />
+    <result column="AgencyID" jdbcType="INTEGER" property="agencyid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.gameAd.maker.bean.Web_VChangeRecord">
+    insert into Web_VChangeRecord (RoomName, ServerIP, ServerInfoID, 
+      GameTypeID, GameKindID, GameNameID, 
+      SocketPort, OnlineCount, UpdateTime, 
+      EnableRoom, StopLogon, IDSort, 
+      Version, ServiceName, VirtualUser, 
+      VirtualGameTime, GameTime, EndTime, 
+      RoomID, DeskIndex, Tax, 
+      ID, ChangeRecordUserID, UserIndex, 
+      UserID, SrcPoint, SrcMoney, 
+      ChangePoint, ChangeMoney, ChangeTax, 
+      UserName, NickName, AgencyID
+      )
+    values (#{roomname,jdbcType=NVARCHAR}, #{serverip,jdbcType=NVARCHAR}, #{serverinfoid,jdbcType=INTEGER}, 
+      #{gametypeid,jdbcType=INTEGER}, #{gamekindid,jdbcType=INTEGER}, #{gamenameid,jdbcType=INTEGER}, 
+      #{socketport,jdbcType=INTEGER}, #{onlinecount,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{enableroom,jdbcType=SMALLINT}, #{stoplogon,jdbcType=SMALLINT}, #{idsort,jdbcType=INTEGER}, 
+      #{version,jdbcType=INTEGER}, #{servicename,jdbcType=NVARCHAR}, #{virtualuser,jdbcType=INTEGER}, 
+      #{virtualgametime,jdbcType=INTEGER}, #{gametime,jdbcType=INTEGER}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{roomid,jdbcType=INTEGER}, #{deskindex,jdbcType=INTEGER}, #{tax,jdbcType=INTEGER}, 
+      #{id,jdbcType=INTEGER}, #{changerecorduserid,jdbcType=INTEGER}, #{userindex,jdbcType=INTEGER}, 
+      #{userid,jdbcType=INTEGER}, #{srcpoint,jdbcType=BIGINT}, #{srcmoney,jdbcType=BIGINT}, 
+      #{changepoint,jdbcType=BIGINT}, #{changemoney,jdbcType=BIGINT}, #{changetax,jdbcType=BIGINT}, 
+      #{username,jdbcType=NVARCHAR}, #{nickname,jdbcType=NVARCHAR}, #{agencyid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gameAd.maker.bean.Web_VChangeRecord">
+    insert into Web_VChangeRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roomname != null">
+        RoomName,
+      </if>
+      <if test="serverip != null">
+        ServerIP,
+      </if>
+      <if test="serverinfoid != null">
+        ServerInfoID,
+      </if>
+      <if test="gametypeid != null">
+        GameTypeID,
+      </if>
+      <if test="gamekindid != null">
+        GameKindID,
+      </if>
+      <if test="gamenameid != null">
+        GameNameID,
+      </if>
+      <if test="socketport != null">
+        SocketPort,
+      </if>
+      <if test="onlinecount != null">
+        OnlineCount,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="enableroom != null">
+        EnableRoom,
+      </if>
+      <if test="stoplogon != null">
+        StopLogon,
+      </if>
+      <if test="idsort != null">
+        IDSort,
+      </if>
+      <if test="version != null">
+        Version,
+      </if>
+      <if test="servicename != null">
+        ServiceName,
+      </if>
+      <if test="virtualuser != null">
+        VirtualUser,
+      </if>
+      <if test="virtualgametime != null">
+        VirtualGameTime,
+      </if>
+      <if test="gametime != null">
+        GameTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="roomid != null">
+        RoomID,
+      </if>
+      <if test="deskindex != null">
+        DeskIndex,
+      </if>
+      <if test="tax != null">
+        Tax,
+      </if>
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="changerecorduserid != null">
+        ChangeRecordUserID,
+      </if>
+      <if test="userindex != null">
+        UserIndex,
+      </if>
+      <if test="userid != null">
+        UserID,
+      </if>
+      <if test="srcpoint != null">
+        SrcPoint,
+      </if>
+      <if test="srcmoney != null">
+        SrcMoney,
+      </if>
+      <if test="changepoint != null">
+        ChangePoint,
+      </if>
+      <if test="changemoney != null">
+        ChangeMoney,
+      </if>
+      <if test="changetax != null">
+        ChangeTax,
+      </if>
+      <if test="username != null">
+        UserName,
+      </if>
+      <if test="nickname != null">
+        NickName,
+      </if>
+      <if test="agencyid != null">
+        AgencyID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roomname != null">
+        #{roomname,jdbcType=NVARCHAR},
+      </if>
+      <if test="serverip != null">
+        #{serverip,jdbcType=NVARCHAR},
+      </if>
+      <if test="serverinfoid != null">
+        #{serverinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="gametypeid != null">
+        #{gametypeid,jdbcType=INTEGER},
+      </if>
+      <if test="gamekindid != null">
+        #{gamekindid,jdbcType=INTEGER},
+      </if>
+      <if test="gamenameid != null">
+        #{gamenameid,jdbcType=INTEGER},
+      </if>
+      <if test="socketport != null">
+        #{socketport,jdbcType=INTEGER},
+      </if>
+      <if test="onlinecount != null">
+        #{onlinecount,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableroom != null">
+        #{enableroom,jdbcType=SMALLINT},
+      </if>
+      <if test="stoplogon != null">
+        #{stoplogon,jdbcType=SMALLINT},
+      </if>
+      <if test="idsort != null">
+        #{idsort,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="servicename != null">
+        #{servicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="virtualuser != null">
+        #{virtualuser,jdbcType=INTEGER},
+      </if>
+      <if test="virtualgametime != null">
+        #{virtualgametime,jdbcType=INTEGER},
+      </if>
+      <if test="gametime != null">
+        #{gametime,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="deskindex != null">
+        #{deskindex,jdbcType=INTEGER},
+      </if>
+      <if test="tax != null">
+        #{tax,jdbcType=INTEGER},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="changerecorduserid != null">
+        #{changerecorduserid,jdbcType=INTEGER},
+      </if>
+      <if test="userindex != null">
+        #{userindex,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="srcpoint != null">
+        #{srcpoint,jdbcType=BIGINT},
+      </if>
+      <if test="srcmoney != null">
+        #{srcmoney,jdbcType=BIGINT},
+      </if>
+      <if test="changepoint != null">
+        #{changepoint,jdbcType=BIGINT},
+      </if>
+      <if test="changemoney != null">
+        #{changemoney,jdbcType=BIGINT},
+      </if>
+      <if test="changetax != null">
+        #{changetax,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=NVARCHAR},
+      </if>
+      <if test="agencyid != null">
+        #{agencyid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByMap" parameterType="Map" resultType="long">
+    SELECT ISNULL(sum(ChangeTax), 0) FROM Web_VChangeRecord
+    <where>
+      <if test="username != null">
+        AND UserName = #{username,jdbcType=NVARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectByDateMap" parameterType="Map" resultType="long">
+    SELECT ISNULL(sum(ChangeTax), 0) FROM Web_VChangeRecord
+    <where>
+      <if test="username != null">
+        AND UserName = #{username,jdbcType=NVARCHAR}
+      </if>
+      <if test="startTime != null">
+        AND EndTime &gt;= #{startTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+</mapper>

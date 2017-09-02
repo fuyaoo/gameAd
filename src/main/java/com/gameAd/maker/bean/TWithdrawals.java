@@ -10,7 +10,7 @@ public class TWithdrawals {
 
     private String username;
 
-    private BigDecimal money;
+    private long money;
 
     private Integer status;
 
@@ -42,11 +42,11 @@ public class TWithdrawals {
         this.username = username == null ? null : username.trim();
     }
 
-    public BigDecimal getMoney() {
+    public long getMoney() {
         return money;
     }
 
-    public void setMoney(BigDecimal money) {
+    public void setMoney(long money) {
         this.money = money;
     }
 

@@ -19,4 +19,8 @@ public interface TWithdrawalsMapper {
     int updateByPrimaryKey(TWithdrawals record);
 
     List<TWithdrawals> selectByMap(Map<String, Object> map);
+
+    int updateByMap(Map<String, Object> map);
+
+    TWithdrawals selectLastByMap(Map<String, Object> map);
 }
