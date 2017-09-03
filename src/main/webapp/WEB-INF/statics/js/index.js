@@ -4,10 +4,10 @@ $(function(){
 	$('.siderbar_option').on('click','li',function(){
 		var $this=$(this);
 		$this.addClass('active').siblings().removeClass('active');
-		if($this.attr('id')=='operatorRecharge'){$msg.load('operatorRecharge.html');return false}
-		if($this.attr('id')=='operatorRecard'){$msg.load('operatorRecard.html');return false}
-		if($this.attr('id')=='playerRecharge'){$msg.load('playerRecharge.html');return false}
-		if($this.attr('id')=='playerRecard'){$msg.load('playerRecard.html'); return false}
+		// if($this.attr('id')=='operatorRecharge'){$msg.load('operatorRecharge.html');return false}
+		// if($this.attr('id')=='operatorRecard'){$msg.load('operatorRecard.html');return false}
+		// if($this.attr('id')=='playerRecharge'){$msg.load('playerRecharge.html');return false}
+		// if($this.attr('id')=='playerRecard'){$msg.load('playerRecard.html'); return false}
 		if($this.attr('id')=='operatorRelation'){$msg.load('operatorRelation.html');return false}
 		if($this.attr('id')=='rateStatistics'){$msg.load('rateStatistics.html'); return false}
 		if($this.attr('id')=='operatorRate'){$msg.load('operatorRate.html'); return false}
