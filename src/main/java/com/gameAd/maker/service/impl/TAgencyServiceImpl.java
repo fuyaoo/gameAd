@@ -57,4 +57,9 @@ public class TAgencyServiceImpl implements TAgencyService{
     public List<TAgency> selectListByMap(Map<String, Object> map) {
         return tAgencyMapper.selectListByMap(map);
     }
+
+    @Override
+    public int selectCountByMap(Map<String, Object> map) {
+        return tAgencyMapper.selectCountByMap(map);
+    }
 }

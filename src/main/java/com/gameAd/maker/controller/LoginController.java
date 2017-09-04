@@ -30,19 +30,7 @@ public class LoginController {
     @Autowired
     WebManageAdminService webManageAdminService;
 
-    /**
-     * index
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/index", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
-    public String index(HttpServletRequest request) {
-        return "/gameAd/login";
-    }
-    @RequestMapping("/admin/{index}")
-    public String showPage(@PathVariable String index) {
-        return "/gameAd/admin/" + index;
-    }
+
     /**
      * 登录
      * @param request
@@ -76,7 +64,7 @@ public class LoginController {
     }
 
     /**
-     * 登录
+     * 登出
      * @param request
      * @return
      */

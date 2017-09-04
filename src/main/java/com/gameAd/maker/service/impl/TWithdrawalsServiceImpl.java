@@ -62,4 +62,9 @@ public class TWithdrawalsServiceImpl implements TWithdrawalsService{
     public TWithdrawals selectLastByMap(Map<String, Object> map) {
         return tWithdrawalsMapper.selectLastByMap(map);
     }
+
+    @Override
+    public int selectCountByMap(Map<String, Object> map) {
+        return tWithdrawalsMapper.selectCountByMap(map);
+    }
 }

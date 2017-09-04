@@ -115,8 +115,31 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByMap" parameterType="Map" resultMap="BaseResultMap">
-    select
+    select top ${hQueryNum}
     <include refid="Base_Column_List" />
+    from TWithdrawals
+    where ID not in (
+      select top ${hStartNum} ID
+      from TWithdrawals
+      <where>
+        <if test="username != null">
+          AND UserName = #{username,jdbcType=NVARCHAR}
+        </if>
+        <if test="agencyid != null">
+          AND AgencyID = #{agencyid,jdbcType=INTEGER}
+        </if>
+        <if test="startTime != null">
+          AND CONVERT(varchar(100), CreateTime,23)  &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+          AND CONVERT(varchar(100), CreateTime,23)  &lt;= #{endTime}
+        </if>
+      </where>
+    )
+    ORDER BY ID
+  </select>
+  <select id="selectCountByMap" resultType="int" parameterType="Map">
+    select COUNT(1)
     from TWithdrawals
     <where>
       <if test="username != null">

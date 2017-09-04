@@ -23,4 +23,6 @@ public interface TWithdrawalsService {
     int updateByMap(Map<String, Object> map);
 
     TWithdrawals selectLastByMap(Map<String, Object> map);
+
+    int selectCountByMap(Map<String, Object> map);
 }

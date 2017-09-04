@@ -11,6 +11,8 @@ public class TAgency {
 
     private String nickname;
 
+    private long changeTax;
+
     public Integer getAgencyid() {
         return agencyid;
     }
@@ -49,5 +51,13 @@ public class TAgency {
 
     public void setNickname(String nickname) {
         this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public long getChangeTax() {
+        return changeTax;
+    }
+
+    public void setChangeTax(long changeTax) {
+        this.changeTax = changeTax;
     }
 }

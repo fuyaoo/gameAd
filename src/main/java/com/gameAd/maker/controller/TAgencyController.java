@@ -37,15 +37,60 @@ public class TAgencyController {
     Web_VChangeRecordService webVChangeRecordService;
 
     /**
-     * 代理关系查询
+     * 代理一级关系查询
      * @param request
      * @return
      */
-    @RequestMapping(value = "/selRelation", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/seloneRelation", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResultObj selRelation(HttpServletRequest request) {
         ResultObj resultObj;
         JSONObject result = new JSONObject();
+        Map<String,Object> map = new HashMap<String ,Object>();
+        String username = request.getParameter("username");
+        String agencyID = request.getParameter("agencyID");
+        String openid = request.getParameter("openid");
+        String pageNum = request.getParameter(ParamConstants.PAGE_NUM);
+        String pageSize = request.getParameter(ParamConstants.PAGE_SIZE);
+        if(! TextUtils.isBlank(username)){
+            map.put("username",username);
+        }
+        if(! TextUtils.isBlank(agencyID)){
+            map.put("agencyID",agencyID);
+        }
+        if (TextUtils.isEmpty(pageNum) || !TextUtils.isPositiveNum(pageNum)) {
+            LOGGER.debug(ResultStatus.PAGE_NUM_INVALID.getMessage());
+            resultObj = new ResultObj(ResultStatus.PAGE_NUM_INVALID);
+            return resultObj;
+        }
+        Integer size;
+        if (TextUtils.isEmpty(pageSize) || !TextUtils.isPositiveNum(pageSize)) {
+            size = Constants.DEFAULT_PAGE_SIZE;
+        } else {
+            size = Integer.valueOf(pageSize);
+            size = size > Constants.MAX_PAGE_SIZE ? Constants.MAX_PAGE_SIZE : size;
+        }
+        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20);
+        map.put("hQueryNum",size);
+        int count = tAgencyService.selectCountByMap(map);
+        List<TAgency> list = tAgencyService.selectByMap(map);
+        JSONObject object = new JSONObject();
+        object.put("list", list);
+        object.put("count", count);
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        resultObj.setData(object);
+        return resultObj;
+    }
+
+    /**
+     * 代理下一级关系查询
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/selNextRelation", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj selNextRelation(HttpServletRequest request) {
+        ResultObj resultObj;
         Map<String,Object> map = new HashMap<String ,Object>();
         String username = request.getParameter("username");
         String agencyID = request.getParameter("agencyID");
@@ -56,52 +101,14 @@ public class TAgencyController {
         if(! TextUtils.isBlank(agencyID)){
             map.put("agencyID",agencyID);
         }
+
         List<TAgency> list = tAgencyService.selectByMap(map);
-        result.put("agentArray",new JSONArray());
         if(list !=null){
-            for(TAgency tAgency : list){
-                JSONObject object = new JSONObject();
-                object.put(String.valueOf(tAgency.getAgencyid()),new JSONObject());
-                JSONObject jobject = object.getJSONObject(String.valueOf(tAgency.getAgencyid()));
-                jobject.put("tAgency",tAgency); //原始代理对象
-                jobject.put("oneAgency",new JSONArray()); //一级代理对象 初始化
-
-                JSONObject oneobject = new JSONObject(); //一级
-                map.put("parentagencyid", tAgency.getAgencyid()); //一级代理
-                List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
-                for(TAgency oneAgency : firstLevelList){
-                    oneobject.put(String.valueOf(oneAgency.getAgencyid()),new JSONObject());
-                    JSONObject onejobject = oneobject.getJSONObject(String.valueOf(oneAgency.getAgencyid()));
-                    onejobject.put("oneAgency",oneAgency); //一级代理对象
-                    onejobject.put("twoAgency",new JSONArray()); //一级代理对象 初始化
-
-                    JSONObject twoobject = new JSONObject(); //二级
-                    map.put("parentagencyid", oneAgency.getAgencyid()); //二级代理
-                    List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
-                    for(TAgency twoAgency : secondLevelList){
-                        twoobject.put(String.valueOf(twoAgency.getAgencyid()),new JSONObject());
-                        JSONObject twojobject = twoobject.getJSONObject(String.valueOf(twoAgency.getAgencyid()));
-                        twojobject.put("twoAgency",twoAgency); //二级代理对象
-                        twojobject.put("threeAgency",new JSONArray()); //二级代理对象 初始化
-
-                        JSONObject threeobject = new JSONObject(); //三级
-                        map.put("parentagencyid", twoAgency.getAgencyid()); //三级代理
-                        List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
-                        for(TAgency threeAgency : thirdLevelList){
-                            threeobject.put(String.valueOf(threeAgency.getAgencyid()),new JSONObject());
-                            JSONObject threejobject = threeobject.getJSONObject(String.valueOf(threeAgency.getAgencyid()));
-                            threejobject.put("threeAgency",threeAgency); //三级代理对象
-
-                            twojobject.getJSONArray("threeAgency").add(threeobject);//三级代理对象 赋值
-                        }
-                        onejobject.getJSONArray("twoAgency").add(twoobject);//二级代理对象 赋值
-                    }
-                    jobject.getJSONArray("oneAgency").add(oneobject);//一级代理对象 赋值
-                }
-                result.getJSONArray("agentArray").add(object);
-            }
+            TAgency tAgency =  list.get(0);
+            map.put("parentagencyid", tAgency.getAgencyid()); //下级代理
+            List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
             resultObj = new ResultObj(ResultStatus.SUCCESS);
-            resultObj.setData(result);
+            resultObj.setData(firstLevelList);
         }else {
             resultObj = new ResultObj(ResultStatus.FAILED);
         }
@@ -151,17 +158,6 @@ public class TAgencyController {
             resultObj = new ResultObj(ResultStatus.SUCCESS);
             resultObj.setData(result);
         }else {
-            TAgency tAgency = new TAgency();
-            tAgency.setNickname("xxx");
-            tAgency.setUserid(1234);
-            tAgency.setUsername("WX_"+openid);
-            tAgency.setParentagencyid(Integer.valueOf(parentagencyid));
-            try{
-                tAgencyService.insert(tAgency);
-            }catch (Exception e){
-                resultObj = new ResultObj(ResultStatus.UID_EXIST);
-                return resultObj;
-            }
             resultObj = new ResultObj(ResultStatus.FAILED);
         }
         return resultObj;
@@ -180,21 +176,34 @@ public class TAgencyController {
         Map<String, Object> map = new HashMap<String, Object>();
         String username = request.getParameter("username");
         String agencyID = request.getParameter("agencyID");
+        String pageNum = request.getParameter(ParamConstants.PAGE_NUM);
+        String pageSize = request.getParameter(ParamConstants.PAGE_SIZE);
         if (!TextUtils.isBlank(username)) {
             map.put("username", username);
         }
         if (!TextUtils.isBlank(agencyID)) {
             map.put("agencyID", agencyID);
         }
-        long changeTax = 0;
+        if (TextUtils.isEmpty(pageNum) || !TextUtils.isPositiveNum(pageNum)) {
+            LOGGER.debug(ResultStatus.PAGE_NUM_INVALID.getMessage());
+            resultObj = new ResultObj(ResultStatus.PAGE_NUM_INVALID);
+            return resultObj;
+        }
+        Integer size;
+        if (TextUtils.isEmpty(pageSize) || !TextUtils.isPositiveNum(pageSize)) {
+            size = Constants.DEFAULT_PAGE_SIZE;
+        } else {
+            size = Integer.valueOf(pageSize);
+            size = size > Constants.MAX_PAGE_SIZE ? Constants.MAX_PAGE_SIZE : size;
+        }
+        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20);
+        map.put("hQueryNum",size);
+        int count = tAgencyService.selectCountByMap(map);
         List<TAgency> list = tAgencyService.selectByMap(map);
         result.put("agentArray", new JSONArray());
         if (list != null) {
             for (TAgency tAgency : list) {
-                JSONObject object = new JSONObject();
-                object.put(String.valueOf(tAgency.getAgencyid()), new JSONObject());
-                JSONObject jobject = object.getJSONObject(String.valueOf(tAgency.getAgencyid()));
-                jobject.put("tAgency", tAgency); //原始代理对象
+                long changeTax = 0;
                 map.put("parentagencyid", tAgency.getAgencyid());
                 List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
                 for (TAgency oneAgency : firstLevelList) {
@@ -219,14 +228,14 @@ public class TAgencyController {
                         }
                     }
                 }
-                jobject.put("agentRateMoney",changeTax);
-                result.getJSONArray("agentArray").add(object);
+                tAgency.setChangeTax(changeTax);
             }
-            resultObj = new ResultObj(ResultStatus.SUCCESS);
-            resultObj.setData(result);
-        } else {
-            resultObj = new ResultObj(ResultStatus.FAILED);
         }
+        JSONObject object = new JSONObject();
+        object.put("list", list);
+        object.put("count", count);
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        resultObj.setData(object);
         return resultObj;
     }
 
@@ -245,6 +254,8 @@ public class TAgencyController {
         String endTime = request.getParameter("endTime");
         String username = request.getParameter("username");
         String agencyID = request.getParameter("agencyID");
+        String pageNum = request.getParameter(ParamConstants.PAGE_NUM);
+        String pageSize = request.getParameter(ParamConstants.PAGE_SIZE);
         if (!TextUtils.isBlank(username)) {
             map.put("username", username);
         }
@@ -258,15 +269,24 @@ public class TAgencyController {
             calendar.set(Calendar.MONTH,-3);
             startTime = M_FORMAT.format(calendar.getTime());
         }
+        Integer size;
+        if (TextUtils.isEmpty(pageSize) || !TextUtils.isPositiveNum(pageSize)) {
+            size = Constants.DEFAULT_PAGE_SIZE;
+        } else {
+            size = Integer.valueOf(pageSize);
+            size = size > Constants.MAX_PAGE_SIZE ? Constants.MAX_PAGE_SIZE : size;
+        }
+        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20);
+        map.put("hQueryNum",size);
         map.put("startTime",startTime);
         map.put("endTime",endTime);
+        int count = tWithdrawalsService.selectCountByMap(map);
         List<TWithdrawals> list = tWithdrawalsService.selectByMap(map);
-        if(list != null){
-            resultObj = new ResultObj(ResultStatus.SUCCESS);
-            resultObj.setData(list);
-        } else {
-            resultObj = new ResultObj(ResultStatus.FAILED);
-        }
+        JSONObject object = new JSONObject();
+        object.put("list", list);
+        object.put("count", count);
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        resultObj.setData(object);
         return resultObj;
     }
 

@@ -91,16 +91,35 @@
     where AgencyID = #{agencyid,jdbcType=INTEGER}
   </update>
   <select id="selectByMap" resultMap="BaseResultMap" parameterType="Map">
-    select
+    select top ${hQueryNum}
     <include refid="Base_Column_List" />
     from TAgency
+    where AgencyID not in (
+      select top ${hStartNum} AgencyID
+      from TAgency
+      <where>
+        <if test="username != null">
+          AND UserName = #{username}
+        </if>
+        <if test="agencyID != null">
+          AND AgencyID = #{agencyID}
+        </if>
+      </where>
+    )
+    ORDER BY AgencyID ASC
+  </select>
+  <select id="selectCountByMap" resultType="int" parameterType="Map">
+    select COUNT(1)
+    from TAgency
     <where>
-      <if test="username != null">
-        AND UserName = #{username}
-      </if>
-      <if test="agencyID != null">
-        AND AgencyID = #{agencyID}
-      </if>
+      <where>
+        <if test="username != null">
+          AND UserName = #{username}
+        </if>
+        <if test="agencyID != null">
+          AND AgencyID = #{agencyID}
+        </if>
+      </where>
     </where>
   </select>
   <select id="selectListByMap" resultMap="BaseResultMap" parameterType="Map">
@@ -112,5 +131,6 @@
         AND ParentAgencyID = #{parentagencyid}
       </if>
     </where>
+    ORDER BY AgencyID ASC
   </select>
 </mapper>

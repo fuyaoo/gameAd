@@ -74,6 +74,48 @@ public class WeiXinController {
     }
 
     /**
+     * 获取code
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getToken", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
+    public void getToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String,Object> map = new HashMap<String ,Object>();
+        String signature = request.getParameter("signature");
+        String timestamp = request.getParameter("timestamp");
+        String nonce = request.getParameter("nonce");
+        String echostr = request.getParameter("echostr");
+        if(TextUtils.isBlank(signature) || TextUtils.isBlank(timestamp) || TextUtils.isBlank(nonce) || TextUtils.isBlank(echostr)){
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            response.getWriter().write("");
+            return;
+        }
+        LOGGER.debug("-----------------------token-------start------------------");
+        LOGGER.debug("----signature:"+signature);
+        LOGGER.debug("----timestamp:"+timestamp);
+        LOGGER.debug("----nonce:"+nonce);
+        LOGGER.debug("----echostr:"+echostr);
+        LOGGER.debug("-----------------------token--------end-------------------");
+        String token = "asdasff111";
+        String[] arr = new String[] { token, timestamp, nonce };
+        //String[] arr = new String[] { token, "1504445538", "3831598116" };
+        //按字典排序
+        Arrays.sort(arr);
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            content.append(arr[i]);
+        }
+        if(signature.equals(Encrypt.encrypt(content.toString(), "SHA-1"))){
+            LOGGER.debug("-----------------------token--------return-------true------------");
+            response.getWriter().write(echostr);
+            return;
+        }else {
+            response.getWriter().write("");
+            return;
+        }
+    }
+
+    /**
      * 提现 新增
      * @param request
      * @return

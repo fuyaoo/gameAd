@@ -24,7 +24,8 @@ public final class Constants {
     public static final String CUSTOMER_QUESTIONS = "customer.questions";
 
     public static final int TOKEN_ACTIVE_MINUTES = 60;
-
+    public static final Integer DEFAULT_PAGE_SIZE = 20;
+    public static final Integer MAX_PAGE_SIZE = 50;
 
     /**
      * 微信

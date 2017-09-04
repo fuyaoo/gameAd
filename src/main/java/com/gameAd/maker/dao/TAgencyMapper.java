@@ -21,4 +21,6 @@ public interface TAgencyMapper {
     List<TAgency> selectByMap(Map<String, Object> map);
 
     List<TAgency> selectListByMap(Map<String, Object> map);
+
+    int selectCountByMap(Map<String, Object> map);
 }
