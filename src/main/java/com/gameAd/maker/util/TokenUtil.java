@@ -19,7 +19,7 @@ import java.util.Map;
 public final class TokenUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenUtil.class);
-    private final static String SPLIT_STR = "_";
+    private final static String SPLIT_STR = "-";
 
     /**
      * 将token解析成mapping

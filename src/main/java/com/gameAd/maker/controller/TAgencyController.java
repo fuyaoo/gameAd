@@ -37,7 +37,7 @@ public class TAgencyController {
     Web_VChangeRecordService webVChangeRecordService;
 
     /**
-     * 代理一级关系查询
+     * 代理查询
      * @param request
      * @return
      */
@@ -98,20 +98,16 @@ public class TAgencyController {
         if(! TextUtils.isBlank(username)){
             map.put("username",username);
         }
-        if(! TextUtils.isBlank(agencyID)){
-            map.put("agencyID",agencyID);
+        if(TextUtils.isBlank(agencyID)){
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
+            return resultObj;
         }
 
-        List<TAgency> list = tAgencyService.selectByMap(map);
-        if(list !=null){
-            TAgency tAgency =  list.get(0);
-            map.put("parentagencyid", tAgency.getAgencyid()); //下级代理
-            List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
-            resultObj = new ResultObj(ResultStatus.SUCCESS);
-            resultObj.setData(firstLevelList);
-        }else {
-            resultObj = new ResultObj(ResultStatus.FAILED);
-        }
+        map.put("parentagencyid", agencyID); //下级代理
+        List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        resultObj.setData(firstLevelList);
         return resultObj;
     }
 

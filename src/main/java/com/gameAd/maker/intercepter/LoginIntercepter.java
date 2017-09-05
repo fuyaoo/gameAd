@@ -44,18 +44,17 @@ public class LoginIntercepter implements HandlerInterceptor {
             return false;
         }
 
-        Map<String, String> map = TokenUtil.parseToken(token);
+        Map<String, String> map = TokenUtil.tradingToken(token);
         if (MapUtils.isEmpty(map)) {
             LOGGER.debug("token参数解析错误");
             response.sendRedirect("/gameAd/index");
             return false;
         }
-        Map<String, String> tokenmap = TokenUtil.tradingToken(token);
         //校验时间是否超过24小时
         String endTime = formatter.format(new Date());
         boolean flag = false;
         try {
-            flag = TokenUtil.judgmentDate(tokenmap.get("time"), endTime);
+            flag = TokenUtil.judgmentDate(map.get("time"), endTime);
         } catch (Exception e) {
             LOGGER.error("日期比对失败");
             response.sendRedirect("/gameAd/index");

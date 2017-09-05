@@ -94,7 +94,8 @@
     select top ${hQueryNum}
     <include refid="Base_Column_List" />
     from TAgency
-    where AgencyID not in (
+    <where>
+      AgencyID not in (
       select top ${hStartNum} AgencyID
       from TAgency
       <where>
@@ -105,7 +106,14 @@
           AND AgencyID = #{agencyID}
         </if>
       </where>
-    )
+      )
+      <if test="username != null">
+        AND UserName = #{username}
+      </if>
+      <if test="agencyID != null">
+        AND AgencyID = #{agencyID}
+      </if>
+    </where>
     ORDER BY AgencyID ASC
   </select>
   <select id="selectCountByMap" resultType="int" parameterType="Map">
