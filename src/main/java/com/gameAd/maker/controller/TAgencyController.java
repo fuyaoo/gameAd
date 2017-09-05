@@ -154,6 +154,12 @@ public class TAgencyController {
             resultObj = new ResultObj(ResultStatus.SUCCESS);
             resultObj.setData(result);
         }else {
+            TAgency tAgency = new TAgency();
+            tAgency.setNickname("金废人");
+            tAgency.setUserid(56);
+            tAgency.setUsername("WX_GfrgtgbsbS");
+            tAgency.setParentagencyid(22);
+            tAgencyService.insert(tAgency);
             resultObj = new ResultObj(ResultStatus.FAILED);
         }
         return resultObj;
