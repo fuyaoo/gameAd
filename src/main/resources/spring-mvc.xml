@@ -23,6 +23,7 @@
             <mvc:exclude-mapping path="/gameAd/login" />
             <mvc:exclude-mapping path="/weixin/getcode" />
             <mvc:exclude-mapping path="/weixin/getToken" />
+            <mvc:exclude-mapping path="/weixin/generateQRcode" />
             <mvc:exclude-mapping path="/gameAd/tAgency/insert" />
             <mvc:exclude-mapping path="/gameAd/tAgency/withdrawalsInsert" />
             <bean class="com.gameAd.maker.intercepter.LoginIntercepter" />

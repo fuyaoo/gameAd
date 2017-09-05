@@ -141,4 +141,15 @@
     </where>
     ORDER BY AgencyID ASC
   </select>
+  <select id="selectOneByMap" resultMap="BaseResultMap" parameterType="Map">
+    select
+    <include refid="Base_Column_List" />
+    from TAgency
+    <if test="username != null">
+      AND UserName = #{username}
+    </if>
+    <if test="agencyID != null">
+      AND AgencyID = #{agencyID}
+    </if>
+  </select>
 </mapper>

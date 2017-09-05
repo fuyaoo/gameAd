@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -74,7 +75,7 @@ public class WeiXinController {
     }
 
     /**
-     * 获取code
+     * 获取 token
      * @param request
      * @return
      */
@@ -158,6 +159,53 @@ public class WeiXinController {
         } else {
             resultObj = new ResultObj(ResultStatus.FAILED);
         }
+        return resultObj;
+    }
+
+
+    /**
+     * 生成二维码
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/generateQRcode", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj generateQRcode(HttpServletRequest request) throws MalformedURLException {
+        ResultObj resultObj;
+        Map<String, Object> map = new HashMap<String, Object>();
+        String username = request.getParameter("username");
+        if (TextUtils.isBlank(username)) {
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
+            return resultObj;
+        }
+        map.put("openid",username);
+        map.put("username",username);
+        TUsers tUsers = tUsersService.selectByMap(map);
+        if(tUsers != null){
+            TAgency tAgency = tAgencyService.selectOneByMap(map);
+            if(tAgency != null){
+                String img = request.getSession().getServletContext().getRealPath("/WEB-INF/statics/img/");
+                String downloadPath = "http://www.hunanqipai.com/?agencyID="+tAgency.getAgencyid();//下载地址
+                StringBuffer fileName = new StringBuffer().append(username).append(".png");
+                //二维码存放地址
+                String downAPP = null;
+                StringBuffer app = new StringBuffer();
+                app.append(img).append(fileName);
+                downAPP = app.toString();
+
+                //原图片地址
+                String download = null;
+                StringBuffer downPath = new StringBuffer();
+                downPath.append(img).append("logo.png");
+                download = downPath.toString();
+                QRcodeUtil.encode(downloadPath, 448, 448, download, downAPP);//生成二维码
+                resultObj = new ResultObj(ResultStatus.SUCCESS);
+                resultObj.setData("http:39.106.6.26/img/"+fileName);
+                return resultObj;
+            }
+        }
+        resultObj = new ResultObj(ResultStatus.FAILED);
         return resultObj;
     }
 

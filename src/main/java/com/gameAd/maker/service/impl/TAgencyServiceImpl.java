@@ -62,4 +62,9 @@ public class TAgencyServiceImpl implements TAgencyService{
     public int selectCountByMap(Map<String, Object> map) {
         return tAgencyMapper.selectCountByMap(map);
     }
+
+    @Override
+    public TAgency selectOneByMap(Map<String, Object> map) {
+        return tAgencyMapper.selectOneByMap(map);
+    }
 }
