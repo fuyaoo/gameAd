@@ -1,11 +1,9 @@
 package com.gameAd.maker.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gameAd.maker.bean.TAgency;
 import com.gameAd.maker.bean.TUsers;
 import com.gameAd.maker.bean.TWithdrawals;
-import com.gameAd.maker.bean.WebManageAdmin;
 import com.gameAd.maker.service.TAgencyService;
 import com.gameAd.maker.service.TUsersService;
 import com.gameAd.maker.service.TWithdrawalsService;
@@ -14,8 +12,8 @@ import com.gameAd.maker.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,12 +35,15 @@ public class WeiXinController {
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    TUsersService tUsersService;@Autowired
+    TUsersService tUsersService;
+    @Autowired
     TAgencyService tAgencyService;
     @Autowired
     TWithdrawalsService tWithdrawalsService;
     @Autowired
     Web_VChangeRecordService webVChangeRecordService;
+    @Autowired
+    AgentConfig agentConfig;
 
     /**
      * 获取code
@@ -55,7 +56,7 @@ public class WeiXinController {
         String code = request.getParameter("code");
         int type = Integer.valueOf(request.getParameter("type"));
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
-        String queryString = "appid="+ URLEncoder.encode(Constants.APPID)+"&secret="+URLEncoder.encode(Constants.SECRET)+"&code="+code+"&grant_type=authorization_code";
+        String queryString = "appid="+ URLEncoder.encode(agentConfig.getAPPID())+"&secret="+URLEncoder.encode(agentConfig.getSECRET())+"&code="+code+"&grant_type=authorization_code";
         String result = HttpUtils.sendGet(url,queryString);
         JSONObject jsonObject = JSONObject.parseObject(result);
         //String access_token = jsonObject.getString("access_token"); //网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
@@ -144,6 +145,58 @@ public class WeiXinController {
         return resultObj;
     }
 
+    /**
+     * 新增代理关系
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/insert", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj insert(HttpServletRequest request) {
+        ResultObj resultObj;
+        JSONObject result = new JSONObject();
+        Map<String,Object> map = new HashMap<String ,Object>();
+        String parentagencyid = request.getParameter("parentagencyid");
+        String code = request.getParameter("code");
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
+        String queryString = "appid="+ URLEncoder.encode(agentConfig.getAPPID())+"&secret="+URLEncoder.encode(agentConfig.getSECRET())+"&code="+code+"&grant_type=authorization_code";
+        String rt = HttpUtils.sendGet(url,queryString);
+        JSONObject jsonObject = JSONObject.parseObject(rt);
+        String openid = jsonObject.getString("openid"); //用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
+        if(TextUtils.isBlank(openid) || TextUtils.isBlank(parentagencyid)){
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
+            return resultObj;
+        }
+        if(! TextUtils.isBlank(openid)){
+            map.put("openid","WX_"+openid);
+        }
+        if(! TextUtils.isBlank(parentagencyid)){
+            map.put("parentagencyid",parentagencyid);
+        }
+        TUsers tUsers = tUsersService.selectByMap(map);
+        if(tUsers != null){
+            map.put("userid",tUsers.getUserid());
+            map.put("username",tUsers.getUsername());
+            map.put("nickname",tUsers.getNickname());
+            List<TAgency> list = tAgencyService.selectByMap(map);
+            if(list.size() > 0){
+                resultObj = new ResultObj(ResultStatus.UID_EXIST);
+                return resultObj;
+            }
+            TAgency tAgency = new TAgency();
+            tAgency.setNickname(tUsers.getNickname());
+            tAgency.setUserid(tUsers.getUserid());
+            tAgency.setUsername(tUsers.getUsername());
+            tAgency.setParentagencyid(Integer.valueOf(parentagencyid));
+            tAgencyService.insert(tAgency);
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+            resultObj.setData(result);
+        }else {
+            resultObj = new ResultObj(ResultStatus.FAILED);
+        }
+        return resultObj;
+    }
 
     /**
      * 生成二维码
@@ -168,7 +221,8 @@ public class WeiXinController {
             TAgency tAgency = tAgencyService.selectOneByMap(map);
             if(tAgency != null){
                 String img = request.getSession().getServletContext().getRealPath("/WEB-INF/statics/img/");
-                String downloadPath = "http://www.hunanqipai.com/?agencyID="+tAgency.getAgencyid();//下载地址
+                String downloadPath = agentConfig.getDownloadPath() + "?agencyID="+tAgency.getAgencyid();//下载地址
+                downloadPath = GetWeiXinCode.getCodeRequest(downloadPath,agentConfig.getAPPID(),agentConfig.getSCOPE()); //封装成授权链接
                 StringBuffer fileName = new StringBuffer().append(username).append(".png");
                 //二维码存放地址
                 String downAPP = null;

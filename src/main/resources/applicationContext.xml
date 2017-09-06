@@ -25,6 +25,7 @@
                 <!-- <value>/WEB-INF/classes/key.properties</value> -->
                 <value>classpath:app-env.properties</value>
                 <value>classpath:sever.properties</value>
+                <value>classpath:agent.properties</value>
                 <!--<value>classpath:/int-properties/web-run-app-env.properties</value>-->
             </array>
         </property>

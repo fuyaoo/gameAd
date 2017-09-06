@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gameAd.maker.dao.TRateMapper">
+  <resultMap id="BaseResultMap" type="com.gameAd.maker.bean.TRate">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="oneRate" jdbcType="DECIMAL" property="onerate" />
+    <result column="twoRate" jdbcType="DECIMAL" property="tworate" />
+    <result column="threeRate" jdbcType="DECIMAL" property="threerate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, oneRate, twoRate, threeRate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TRate
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from TRate
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gameAd.maker.bean.TRate">
+    insert into TRate (ID, oneRate, twoRate, 
+      threeRate)
+    values (#{id,jdbcType=INTEGER}, #{onerate,jdbcType=DECIMAL}, #{tworate,jdbcType=DECIMAL}, 
+      #{threerate,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gameAd.maker.bean.TRate">
+    insert into TRate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="onerate != null">
+        oneRate,
+      </if>
+      <if test="tworate != null">
+        twoRate,
+      </if>
+      <if test="threerate != null">
+        threeRate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="onerate != null">
+        #{onerate,jdbcType=DECIMAL},
+      </if>
+      <if test="tworate != null">
+        #{tworate,jdbcType=DECIMAL},
+      </if>
+      <if test="threerate != null">
+        #{threerate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gameAd.maker.bean.TRate">
+    update TRate
+    <set>
+      <if test="onerate != null">
+        oneRate = #{onerate,jdbcType=DECIMAL},
+      </if>
+      <if test="tworate != null">
+        twoRate = #{tworate,jdbcType=DECIMAL},
+      </if>
+      <if test="threerate != null">
+        threeRate = #{threerate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gameAd.maker.bean.TRate">
+    update TRate
+    set oneRate = #{onerate,jdbcType=DECIMAL},
+      twoRate = #{tworate,jdbcType=DECIMAL},
+      threeRate = #{threerate,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="select" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TRate
+  </select>
+</mapper>

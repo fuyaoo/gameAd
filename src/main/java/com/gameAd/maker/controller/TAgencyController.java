@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -35,6 +36,8 @@ public class TAgencyController {
     TWithdrawalsService tWithdrawalsService;
     @Autowired
     Web_VChangeRecordService webVChangeRecordService;
+    @Autowired
+    TRateService tRateService;
 
     /**
      * 代理查询
@@ -316,4 +319,44 @@ public class TAgencyController {
         return resultObj;
     }
 
+    /**
+     * 佣金率
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/rate", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj rate(HttpServletRequest request) {
+        ResultObj resultObj;
+        TRate tRate = tRateService.select();
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        resultObj.setData(tRate);
+        return resultObj;
+    }
+
+    /**
+     * 新增佣金率
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/rate/insert", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultObj rateInsert(HttpServletRequest request) {
+        ResultObj resultObj;
+        String oneRate = request.getParameter("oneRate");
+        String twoRate = request.getParameter("twoRate");
+        String threeRate = request.getParameter("threeRate");
+        if(TextUtils.isBlank(oneRate) || TextUtils.isBlank(twoRate) || TextUtils.isBlank(threeRate)){
+            LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
+            resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
+            return resultObj;
+        }
+        TRate tRate = new TRate();
+        tRate.setOnerate(new BigDecimal(oneRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+        tRate.setTworate(new BigDecimal(twoRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+        tRate.setThreerate(new BigDecimal(threeRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+        tRateService.insert(tRate);
+        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        return resultObj;
+    }
 }

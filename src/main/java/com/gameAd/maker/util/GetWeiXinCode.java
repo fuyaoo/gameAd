@@ -7,11 +7,12 @@ import java.net.URLEncoder;
  */
 public class GetWeiXinCode {
     public static String  GetCodeRequest = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=123#wechat_redirect";
-    public static String getCodeRequest(){
+    public static String getCodeRequest(String url,String appid,String scope){
         String result = null;
-        GetCodeRequest  = GetCodeRequest.replace("APPID", urlEnodeUTF8(Constants.APPID));
-        GetCodeRequest  = GetCodeRequest.replace("REDIRECT_URI",urlEnodeUTF8("http://wx.gzmibo.com/weixin/getcode?type=2"));
-        GetCodeRequest = GetCodeRequest.replace("SCOPE", Constants.SCOPE);
+        GetCodeRequest  = GetCodeRequest.replace("APPID", urlEnodeUTF8(appid));
+//        GetCodeRequest  = GetCodeRequest.replace("REDIRECT_URI",urlEnodeUTF8("http://wx.gzmibo.com/weixin/getcode?type=2"));
+        GetCodeRequest  = GetCodeRequest.replace("REDIRECT_URI",urlEnodeUTF8(url));
+        GetCodeRequest = GetCodeRequest.replace("SCOPE", scope);
         result = GetCodeRequest;
         return result;
     }
@@ -23,8 +24,5 @@ public class GetWeiXinCode {
             e.printStackTrace();
         }
         return result;
-    }
-    public static void main(String[] args) {
-        System.out.println(getCodeRequest());
     }
 }
