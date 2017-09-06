@@ -63,8 +63,8 @@ public class WeiXinController {
         //String refresh_token = jsonObject.getString("refresh_token"); //用户刷新access_token
         //String scope = jsonObject.getString("scope"); //用户授权的作用域，使用逗号（,）分隔
         String openid = jsonObject.getString("openid"); //用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
-        if(! TextUtils.isBlank(openid)){
-//        if(TextUtils.isBlank(openid)){
+//        if(! TextUtils.isBlank(openid)){
+        if(TextUtils.isBlank(openid)){
             map.put("openid","WX_"+openid);
             map.put("username","WX_"+openid);
             TUsers tUsers = tUsersService.selectByMap(map);
