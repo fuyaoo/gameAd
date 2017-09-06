@@ -10,7 +10,7 @@ public class GetWeiXinCode {
     public static String getCodeRequest(){
         String result = null;
         GetCodeRequest  = GetCodeRequest.replace("APPID", urlEnodeUTF8(Constants.APPID));
-        GetCodeRequest  = GetCodeRequest.replace("REDIRECT_URI",urlEnodeUTF8(Constants.REDIRECT_URI));
+        GetCodeRequest  = GetCodeRequest.replace("REDIRECT_URI",urlEnodeUTF8("http://wx.gzmibo.com/weixin/getcode?type=2"));
         GetCodeRequest = GetCodeRequest.replace("SCOPE", Constants.SCOPE);
         result = GetCodeRequest;
         return result;

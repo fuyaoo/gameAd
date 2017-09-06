@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta content="no" name="apple-mobile-web-app-capable">
+    <meta content="no" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <script type="text/javascript" src="http://localhost/js/zepto.min.js"></script>
+</head>
+<body>
+    <style type="text/css">
+        body{
+            background: #f3f4f9;
+        }
+        .tl{
+            text-align: left;
+        }
+        .query{
+            text-align: center;
+            margin: 20px 12px;
+            height: calc(70vh);
+            background: #fff;
+            border:1px solid #e8e8e8;
+            border-radius: 3px;
+            position: relative;
+        }
+        .querybox{
+            margin: 20px;
+            text-align: left;
+        }
+        .input{
+            height: 34px;
+            border:1px solid #e8e8e8;
+            display: block;
+            width: 100%;
+            text-indent: 10px;
+            border-radius: 6px;
+        }
+        .button,.request{
+            display: block;
+            height: 34px;
+            background: #e6d1b4;
+            color: #000;
+            line-height: 34px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .totalMoney, .currentMoney{
+            font-weight: bold;
+            margin: 0 3px;
+        }
+        .red{
+            color: #ff4444
+        }
+        .tips{
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 0;
+            height: 60px;
+            border-top: 1px solid #e8e8e8;
+            line-height: 40px;
+        }
+    </style>
+    <div class="query">
+        <div class="querybox">
+            <p>您好：累计分润<span class="totalMoney red"></span>元，当前可提现金额<span class="currentMoney red"></span></p>
+        </div>
+        <div class="tl querybox append">
+            <div class="request" style="display: none;">提现申请</div>
+        </div>
+        <div class="info" style="color: #ff4444"></div>
+        <div class="tips">提现周期为半个月</div>
+    </div>
+    <script type="text/javascript">
+        var username = getQueryString("username");
+        var msg = decodeURI(getQueryString("msg"));
+        if(username != null){
+            $.ajax({
+                type: 'POST',
+                url: 'http://39.108.6.26/weixin/agentCount',
+                data: {
+                    username: username
+                },
+                success: function (e) {
+                    console.log(e)
+                    if(e.code===100){
+                        $('.totalMoney').html(e.data.changeTax)
+                    }
+                }
+            })
+            $.ajax({
+                type: 'POST',
+                url: 'http://39.108.6.26/weixin/Web_VChangeRecord',
+                data: {
+                    username: username
+                },
+                success: function (e) {
+                    console.log(e)
+                    if(e.code===100){
+                        if(e.data > 0) {
+                            requestMoney(e.data);
+                            $('.request').show()
+                        } else{
+                            $('.request').hide()
+                        }
+                        $('.currentMoney').html(e.data)
+                    }
+                }
+            })
+        }
+        if(msg != null){
+            if(msg == 1){
+                $('.info').text('您还不是代理!');
+            }else if(msg == 2){
+                $('.info').text('授权失败!');
+            }
+        }
+        function requestMoney(money) {
+            $('.request').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://39.108.6.26/weixin/withdrawalsInsert',
+                    data: {
+                        username: username,
+                        money: money
+                    },
+                    success: function (e) {
+                        if(e.code===100) {
+                            $('.request').hide();
+                        }
+                        if (e.code===101){
+                            $('.request').hide();
+                            $('.append').append('<p style="font-size:14px;color:#ff4444">近半个月已有体现申请</p>');
+                        }
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+</html>

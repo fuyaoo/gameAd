@@ -30,8 +30,8 @@ public final class Constants {
     /**
      * 微信
      */
-    public static final String APPID = "APPID";
+    public static final String APPID = "wx28d23d9d11cc97e2";
     public static final String REDIRECT_URI = "REDIRECT_URI";
-    public static final String SCOPE = "SCOPE";
-    public static final String SECRET = "SECRET";
+    public static final String SCOPE = "snsapi_base";
+    public static final String SECRET = "b32c38629a2b2c6da92082f1790a84e8";
 }

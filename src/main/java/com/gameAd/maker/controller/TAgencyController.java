@@ -70,8 +70,8 @@ public class TAgencyController {
             size = Integer.valueOf(pageSize);
             size = size > Constants.MAX_PAGE_SIZE ? Constants.MAX_PAGE_SIZE : size;
         }
-        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20);
-        map.put("hQueryNum",size);
+        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20 + 1);
+        map.put("hQueryNum",Integer.valueOf(pageNum) * size);
         int count = tAgencyService.selectCountByMap(map);
         List<TAgency> list = tAgencyService.selectByMap(map);
         JSONObject object = new JSONObject();
@@ -192,8 +192,8 @@ public class TAgencyController {
             size = Integer.valueOf(pageSize);
             size = size > Constants.MAX_PAGE_SIZE ? Constants.MAX_PAGE_SIZE : size;
         }
-        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20);
-        map.put("hQueryNum",size);
+        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20 + 1);
+        map.put("hQueryNum",Integer.valueOf(pageNum) * size);
         int count = tAgencyService.selectCountByMap(map);
         List<TAgency> list = tAgencyService.selectByMap(map);
         result.put("agentArray", new JSONArray());
@@ -272,8 +272,8 @@ public class TAgencyController {
             size = Integer.valueOf(pageSize);
             size = size > Constants.MAX_PAGE_SIZE ? Constants.MAX_PAGE_SIZE : size;
         }
-        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20);
-        map.put("hQueryNum",size);
+        map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20 + 1);
+        map.put("hQueryNum",Integer.valueOf(pageNum) * size);
         map.put("startTime",startTime);
         map.put("endTime",endTime);
         int count = tWithdrawalsService.selectCountByMap(map);
