@@ -78,10 +78,15 @@ public class WeiXinController {
                     response.sendRedirect("/views/query.html?username="+"WX_"+openid+"&agencyID="+tAgency.getAgencyid());
                 }
             }else {
+                tAgency = new TAgency();
+                tAgency.setNickname(tUsers.getNickname());
+                tAgency.setUsername("WX_"+openid);
+                tAgency.setParentagencyid(0);
+                tAgencyService.insert(tAgency);
                 if(type == 1){
-                    response.sendRedirect("/views/index.html?msg=1");//您还不是代理!
+                    response.sendRedirect("/views/index.html?msg=1&username"+"WX_"+openid);//您还不是代理!
                 }else if(type == 2){
-                    response.sendRedirect("/views/query.html?msg=1");
+                    response.sendRedirect("/views/query.html?msg=1&username"+"WX_"+openid);
                 }
             }
         }else {

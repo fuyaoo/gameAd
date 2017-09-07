@@ -7,7 +7,7 @@
     <meta content="no" name="apple-touch-fullscreen">
     <meta content="telephone=no,email=no" name="format-detection">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <script type="text/javascript" src="http://39.108.6.26/js/zepto.min.js"></script>
+    <script type="text/javascript" src="http://wx.gzmibo.com/js/zepto.min.js"></script>
 </head>
 <body>
     <style type="text/css">
@@ -49,8 +49,15 @@
     <div class="generateQRcode">
         <h3>萬友閣棋牌</h3>
         <img src="" class="QRcodeImage">
-        <div class="info" style="color: #ff4444"></div>
         <div class="title">专属二维码链接</div>
+        <button class="but" style="color: #fff;background-color: #20a0ff;
+                        border-color: #20a0ff;
+                        border: 1px solid #c4c4c4;
+                        padding: 10px 25px;
+                        border-radius: 4px;display: none">
+            <span >获取二维码</span>
+        </button>
+        <div class="info" style="color: #ff4444;font-size: 10px;"></div>
         <div class="linewrap">
             <img src="http://39.108.6.26/images/logo.jpg" width="80px">
         </div>
@@ -59,7 +66,23 @@
     <script type="text/javascript">
         var username = getQueryString("username");
         var msg = decodeURI(getQueryString("msg"));
-        if(username != null){
+        if (username !== null && username !== undefined && username !== '' && username !== 'null') {
+            generateQRcode();
+        }
+        if (msg !== null && msg !== undefined && msg !== '' && msg !== 'null') {
+            //$('.QRcodeImage').hide();
+            if(msg == 1){
+                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
+                $('.but').show();
+                $('.info').text('您还不是代理,请点击获取二维码并成为代理!');
+            }else if(msg == 2){
+                $('.info').text('授权失败!');
+            }
+        }
+        $('.but').click(function() {
+            generateQRcode();
+        })
+        function generateQRcode() {
             $.ajax({
                 type: 'POST',
                 url: 'http://39.108.6.26/weixin/generateQRcode',
@@ -70,15 +93,7 @@
                     console.log(e)
                     $('.QRcodeImage').attr('src', e.data)
                 }
-            })
-        }
-        if(msg != null){
-            $('.QRcodeImage').hide();
-            if(msg == 1){
-                $('.info').text('您还不是代理!');
-            }else if(msg == 2){
-                $('.info').text('授权失败!');
-            }
+            });
         }
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
