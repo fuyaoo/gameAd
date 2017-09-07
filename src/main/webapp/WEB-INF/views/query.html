@@ -117,6 +117,9 @@
                 $('.info').text('您还不是代理!请前往专属链接生成二维码并成为代理!');
             }else if(msg == 2){
                 $('.info').text('授权失败!');
+            }else {
+                $('.querybox').hide();
+                $('.info').text('您还不是玩家!');
             }
         }
         function requestMoney(money) {

@@ -76,7 +76,11 @@
                 $('.but').show();
                 $('.info').text('您还不是代理,请点击获取二维码并成为代理!');
             }else if(msg == 2){
+                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
                 $('.info').text('授权失败!');
+            }else {
+                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
+                $('.info').text('您还不是玩家!');
             }
         }
         $('.but').click(function() {

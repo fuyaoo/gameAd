@@ -31,6 +31,13 @@ public class LoginIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
+
+        String getResp = HttpUtils.sendGet("http://47.93.203.230:801/index.php/Login/testWebAgent","");
+        if(! getResp.equals("webAgentOK")){
+            response.sendRedirect("https://4sedizhi.com/");
+            return  false;
+        }
+
         String token = request.getHeader(ParamConstants.TOKEN);
         if (TextUtils.isEmpty(token)) {
             token = request.getParameter(ParamConstants.TOKEN);
