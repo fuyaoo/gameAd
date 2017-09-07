@@ -197,12 +197,18 @@ public class TAgencyController {
         }
         map.put("hStartNum",(Integer.valueOf(pageNum)-1)*20 + 1);
         map.put("hQueryNum",Integer.valueOf(pageNum) * size);
+        TRate tRate = tRateService.select();
+        if(tRate == null){
+            tRate.setOnerate(new BigDecimal(0));
+            tRate.setTworate(new BigDecimal(0));
+            tRate.setThreerate(new BigDecimal(0));
+        }
         int count = tAgencyService.selectCountByMap(map);
         List<TAgency> list = tAgencyService.selectByMap(map);
         result.put("agentArray", new JSONArray());
         if (list != null) {
             for (TAgency tAgency : list) {
-                long changeTax = 0;
+                Double changeTax = 0d;
                 map.put("parentagencyid", tAgency.getAgencyid());
                 List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
                 for (TAgency oneAgency : firstLevelList) {
@@ -212,22 +218,22 @@ public class TAgencyController {
                     username = oneAgency.getUsername();
                     map.put("username", username);
                     map.put("parentagencyid", oneAgency.getAgencyid()); //一级代理
-                    changeTax += webVChangeRecordService.selectByMap(map);
+                    changeTax += webVChangeRecordService.selectByMap(map) * tRate.getOnerate().doubleValue() /100;
                     List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
                     for (TAgency twoAgency : secondLevelList) {
                         username = twoAgency.getUsername();
                         map.put("username", username);
                         map.put("parentagencyid", twoAgency.getAgencyid());
-                        changeTax += webVChangeRecordService.selectByMap(map);
+                        changeTax += webVChangeRecordService.selectByMap(map) * tRate.getTworate().doubleValue() /100;
                         List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
                         for (TAgency threeAgency : thirdLevelList) {
                             username = threeAgency.getUsername();
                             map.put("username", username);
-                            changeTax += webVChangeRecordService.selectByMap(map);
+                            changeTax += webVChangeRecordService.selectByMap(map) * tRate.getThreerate().doubleValue() /100;
                         }
                     }
                 }
-                tAgency.setChangeTax(changeTax);
+                tAgency.setChangeTax(Math.round(changeTax));
             }
         }
         JSONObject object = new JSONObject();
@@ -324,7 +330,7 @@ public class TAgencyController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/rate", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/rate", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
     @ResponseBody
     public ResultObj rate(HttpServletRequest request) {
         ResultObj resultObj;
@@ -351,12 +357,21 @@ public class TAgencyController {
             resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
             return resultObj;
         }
-        TRate tRate = new TRate();
-        tRate.setOnerate(new BigDecimal(oneRate).setScale(2,BigDecimal.ROUND_HALF_UP));
-        tRate.setTworate(new BigDecimal(twoRate).setScale(2,BigDecimal.ROUND_HALF_UP));
-        tRate.setThreerate(new BigDecimal(threeRate).setScale(2,BigDecimal.ROUND_HALF_UP));
-        tRateService.insert(tRate);
-        resultObj = new ResultObj(ResultStatus.SUCCESS);
+        TRate tRate = tRateService.select();
+        if(tRate == null){
+            tRate = new TRate();
+            tRate.setOnerate(new BigDecimal(oneRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+            tRate.setTworate(new BigDecimal(twoRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+            tRate.setThreerate(new BigDecimal(threeRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+            tRateService.insert(tRate);
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+        }else{
+            tRate.setOnerate(new BigDecimal(oneRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+            tRate.setTworate(new BigDecimal(twoRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+            tRate.setThreerate(new BigDecimal(threeRate).setScale(2,BigDecimal.ROUND_HALF_UP));
+            tRateService.updateByPrimaryKey(tRate);
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+        }
         return resultObj;
     }
 }

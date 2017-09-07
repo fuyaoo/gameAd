@@ -2,12 +2,10 @@ package com.gameAd.maker.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.gameAd.maker.bean.TAgency;
+import com.gameAd.maker.bean.TRate;
 import com.gameAd.maker.bean.TUsers;
 import com.gameAd.maker.bean.TWithdrawals;
-import com.gameAd.maker.service.TAgencyService;
-import com.gameAd.maker.service.TUsersService;
-import com.gameAd.maker.service.TWithdrawalsService;
-import com.gameAd.maker.service.Web_VChangeRecordService;
+import com.gameAd.maker.service.*;
 import com.gameAd.maker.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -44,6 +43,8 @@ public class WeiXinController {
     Web_VChangeRecordService webVChangeRecordService;
     @Autowired
     AgentConfig agentConfig;
+    @Autowired
+    TRateService tRateService;
 
     /**
      * 获取code
@@ -64,8 +65,8 @@ public class WeiXinController {
         //String refresh_token = jsonObject.getString("refresh_token"); //用户刷新access_token
         //String scope = jsonObject.getString("scope"); //用户授权的作用域，使用逗号（,）分隔
         String openid = jsonObject.getString("openid"); //用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
-//        if(! TextUtils.isBlank(openid)){
-        if(TextUtils.isBlank(openid)){
+        if(! TextUtils.isBlank(openid)){
+//        if(TextUtils.isBlank(openid)){
             map.put("openid","WX_"+openid);
             map.put("username","WX_"+openid);
             TUsers tUsers = tUsersService.selectByMap(map);
@@ -260,6 +261,12 @@ public class WeiXinController {
         if (!TextUtils.isBlank(username)) {
             map.put("username", username);
         }
+        TRate tRate = tRateService.select();
+        if(tRate == null){
+            tRate.setOnerate(new BigDecimal(0));
+            tRate.setTworate(new BigDecimal(0));
+            tRate.setThreerate(new BigDecimal(0));
+        }
         TAgency tAgency = tAgencyService.selectOneByMap(map);
         if (tAgency != null) {
             long changeTax = 0;
@@ -272,18 +279,18 @@ public class WeiXinController {
                 username = oneAgency.getUsername();
                 map.put("username", username);
                 map.put("parentagencyid", oneAgency.getAgencyid()); //一级代理
-                changeTax += webVChangeRecordService.selectByMap(map);
+                changeTax += webVChangeRecordService.selectByMap(map) * tRate.getOnerate().doubleValue() / 100;
                 List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
                 for (TAgency twoAgency : secondLevelList) {
                     username = twoAgency.getUsername();
                     map.put("username", username);
                     map.put("parentagencyid", twoAgency.getAgencyid());
-                    changeTax += webVChangeRecordService.selectByMap(map);
+                    changeTax += webVChangeRecordService.selectByMap(map) * tRate.getTworate().doubleValue() /100;
                     List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
                     for (TAgency threeAgency : thirdLevelList) {
                         username = threeAgency.getUsername();
                         map.put("username", username);
-                        changeTax += webVChangeRecordService.selectByMap(map);
+                        changeTax += webVChangeRecordService.selectByMap(map) * tRate.getThreerate().doubleValue() /100;
                     }
                 }
             }
@@ -324,6 +331,12 @@ public class WeiXinController {
             calendar.setTime(auditingtime);
             rmap.put("startTime",calendar.getTime());
         } //EndTime  > startTime
+        TRate tRate = tRateService.select();
+        if(tRate == null){
+            tRate.setOnerate(new BigDecimal(0));
+            tRate.setTworate(new BigDecimal(0));
+            tRate.setThreerate(new BigDecimal(0));
+        }
         TAgency tAgency = tAgencyService.selectOneByMap(map);
         if (tAgency != null) {
             map.put("parentagencyid", tAgency.getAgencyid());
@@ -335,18 +348,18 @@ public class WeiXinController {
                 username = oneAgency.getUsername();
                 rmap.put("username", username);
                 map.put("parentagencyid", oneAgency.getAgencyid()); //一级代理
-                changeTax += webVChangeRecordService.selectByDateMap(rmap);
+                changeTax += webVChangeRecordService.selectByDateMap(rmap)  * tRate.getOnerate().doubleValue() /100;
                 List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
                 for (TAgency twoAgency : secondLevelList) {
                     username = twoAgency.getUsername();
                     rmap.put("username", username);
                     map.put("parentagencyid", twoAgency.getAgencyid());
-                    changeTax += webVChangeRecordService.selectByDateMap(rmap);
+                    changeTax += webVChangeRecordService.selectByDateMap(rmap)  * tRate.getOnerate().doubleValue() /100;
                     List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
                     for (TAgency threeAgency : thirdLevelList) {
                         username = threeAgency.getUsername();
                         rmap.put("username", username);
-                        changeTax += webVChangeRecordService.selectByDateMap(rmap);
+                        changeTax += webVChangeRecordService.selectByDateMap(rmap)  * tRate.getOnerate().doubleValue() /100;
                     }
                 }
             }

@@ -20,10 +20,10 @@
     delete from TRate
     where ID = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.gameAd.maker.bean.TRate">
-    insert into TRate (ID, oneRate, twoRate, 
+  <insert id="insert" parameterType="com.gameAd.maker.bean.TRate" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+    insert into TRate (oneRate, twoRate,
       threeRate)
-    values (#{id,jdbcType=INTEGER}, #{onerate,jdbcType=DECIMAL}, #{tworate,jdbcType=DECIMAL}, 
+    values (#{onerate,jdbcType=DECIMAL}, #{tworate,jdbcType=DECIMAL},
       #{threerate,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.gameAd.maker.bean.TRate">
