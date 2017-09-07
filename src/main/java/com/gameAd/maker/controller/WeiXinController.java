@@ -155,7 +155,6 @@ public class WeiXinController {
     @ResponseBody
     public ResultObj insert(HttpServletRequest request) {
         ResultObj resultObj;
-        JSONObject result = new JSONObject();
         Map<String,Object> map = new HashMap<String ,Object>();
         String parentagencyid = request.getParameter("parentagencyid");
         String code = request.getParameter("code");
@@ -175,27 +174,20 @@ public class WeiXinController {
         if(! TextUtils.isBlank(parentagencyid)){
             map.put("parentagencyid",parentagencyid);
         }
-        TUsers tUsers = tUsersService.selectByMap(map);
-        if(tUsers != null){
-            map.put("userid",tUsers.getUserid());
-            map.put("username",tUsers.getUsername());
-            map.put("nickname",tUsers.getNickname());
+        //TUsers tUsers = tUsersService.selectByMap(map);
+        //if(tUsers != null){
+            map.put("username","WX_"+openid);
             List<TAgency> list = tAgencyService.selectByMap(map);
             if(list.size() > 0){
                 resultObj = new ResultObj(ResultStatus.UID_EXIST);
                 return resultObj;
             }
             TAgency tAgency = new TAgency();
-            tAgency.setNickname(tUsers.getNickname());
-            tAgency.setUserid(tUsers.getUserid());
-            tAgency.setUsername(tUsers.getUsername());
+            tAgency.setNickname("");
+            tAgency.setUsername("WX_"+openid);
             tAgency.setParentagencyid(Integer.valueOf(parentagencyid));
             tAgencyService.insert(tAgency);
             resultObj = new ResultObj(ResultStatus.SUCCESS);
-            resultObj.setData(result);
-        }else {
-            resultObj = new ResultObj(ResultStatus.FAILED);
-        }
         return resultObj;
     }
 
