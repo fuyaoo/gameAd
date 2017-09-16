@@ -76,73 +76,90 @@
         <div class="tips">提现周期为半个月</div>
     </div>
     <script type="text/javascript">
-        var username = getQueryString("username");
-        var msg = getQueryString("msg");
-        if (username !== null && username !== undefined && username !== '' && username !== 'null') {
+        var code = getQueryString("code");
+        if(code != null){
             $.ajax({
-                type: 'POST',
-                url: 'http://39.108.6.26/weixin/agentCount',
+                type: 'GET',
+                url: 'http://39.108.6.26/weixin/getcode',
                 data: {
-                    username: username
+                    code: code
                 },
                 success: function (e) {
                     console.log(e)
                     if(e.code===100){
-                        $('.totalMoney').html(e.data.changeTax)
+                        var username = e.data.username;
+                        var msg = e.data.msg;
+                        if (username !== null && username !== undefined && username !== '' && username !== 'null') {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'http://39.108.6.26/weixin/agentCount',
+                                data: {
+                                    username: username
+                                },
+                                success: function (e) {
+                                    console.log(e)
+                                    if(e.code===100){
+                                        $('.totalMoney').html(e.data.changeTax)
+                                    }
+                                }
+                            })
+                            $.ajax({
+                                type: 'POST',
+                                url: 'http://39.108.6.26/weixin/Web_VChangeRecord',
+                                data: {
+                                    username: username
+                                },
+                                success: function (e) {
+                                    console.log(e)
+                                    if(e.code===100){
+                                        if(e.data > 0) {
+                                            requestMoney(e.data);
+                                            $('.request').show()
+                                        } else{
+                                            $('.request').hide()
+                                        }
+                                        $('.currentMoney').html(e.data)
+                                    }
+                                }
+                            })
+                        }
+                        if (msg !== null && msg !== undefined && msg !== '' && msg !== 'null') {
+                            if(msg == 1){
+                                $('.info').text('您还不是代理!请前往专属链接生成二维码并成为代理!');
+                            }else if(msg == 2){
+                                $('.info').text('授权失败!');
+                            }else {
+                                $('.querybox').hide();
+                                $('.info').text('您还不是玩家!');
+                            }
+                        }
+                        function requestMoney(money) {
+                            $('.request').click(function() {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'http://39.108.6.26/weixin/withdrawalsInsert',
+                                    data: {
+                                        username: username,
+                                        money: money
+                                    },
+                                    success: function (e) {
+                                        if(e.code===100) {
+                                            $('.request').hide();
+                                        }
+                                        if (e.code===101){
+                                            $('.request').hide();
+                                            $('.append').append('<p style="font-size:14px;color:#ff4444">近半个月已有体现申请</p>');
+                                        }
+                                    }
+                                })
+                            })
+                        }
                     }
                 }
             })
-            $.ajax({
-                type: 'POST',
-                url: 'http://39.108.6.26/weixin/Web_VChangeRecord',
-                data: {
-                    username: username
-                },
-                success: function (e) {
-                    console.log(e)
-                    if(e.code===100){
-                        if(e.data > 0) {
-                            requestMoney(e.data);
-                            $('.request').show()
-                        } else{
-                            $('.request').hide()
-                        }
-                        $('.currentMoney').html(e.data)
-                    }
-                }
-            })
         }
-        if (msg !== null && msg !== undefined && msg !== '' && msg !== 'null') {
-            if(msg == 1){
-                $('.info').text('您还不是代理!请前往专属链接生成二维码并成为代理!');
-            }else if(msg == 2){
-                $('.info').text('授权失败!');
-            }else {
-                $('.querybox').hide();
-                $('.info').text('您还不是玩家!');
-            }
-        }
-        function requestMoney(money) {
-            $('.request').click(function() {
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://39.108.6.26/weixin/withdrawalsInsert',
-                    data: {
-                        username: username,
-                        money: money
-                    },
-                    success: function (e) {
-                        if(e.code===100) {
-                            $('.request').hide();
-                        }
-                        if (e.code===101){
-                            $('.request').hide();
-                            $('.append').append('<p style="font-size:14px;color:#ff4444">近半个月已有体现申请</p>');
-                        }
-                    }
-                })
-            })
-        }
+
+
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);

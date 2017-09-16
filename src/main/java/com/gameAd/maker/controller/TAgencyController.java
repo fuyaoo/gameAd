@@ -173,6 +173,7 @@ public class TAgencyController {
         ResultObj resultObj;
         JSONObject result = new JSONObject();
         Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> rmap = new HashMap<String, Object>();
         String username = request.getParameter("username");
         String agencyID = request.getParameter("agencyID");
         String pageNum = request.getParameter(ParamConstants.PAGE_NUM);
@@ -209,6 +210,16 @@ public class TAgencyController {
         if (list != null) {
             for (TAgency tAgency : list) {
                 Double changeTax = 0d;
+                /*********获取当前代理总共提款金额*********/
+                Double allPrice = tWithdrawalsService.selectAllPrice(tAgency.getUsername());
+                /*********获取当前代理最近一次提现*********/
+                TWithdrawals tWithdrawals = tWithdrawalsService.selectLastByMap(map);
+                if(tWithdrawals != null){
+                    Date auditingtime = tWithdrawals.getAuditingtime();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(auditingtime);
+                    rmap.put("startTime",calendar.getTime());
+                } //
                 map.put("parentagencyid", tAgency.getAgencyid());
                 List<TAgency> firstLevelList = tAgencyService.selectListByMap(map);
                 for (TAgency oneAgency : firstLevelList) {
@@ -216,24 +227,24 @@ public class TAgencyController {
                      * 根据用户名查看 该游戏玩家充值了多少钱 计算分润(充值金额 * 分润利率)情况
                      */
                     username = oneAgency.getUsername();
-                    map.put("username", username);
+                    rmap.put("username", username);
                     map.put("parentagencyid", oneAgency.getAgencyid()); //一级代理
-                    changeTax += webVChangeRecordService.selectByMap(map) * tRate.getOnerate().doubleValue() /100;
+                    changeTax += webVChangeRecordService.selectByDateMap(rmap)  * tRate.getOnerate().doubleValue() /100;
                     List<TAgency> secondLevelList = tAgencyService.selectListByMap(map);
                     for (TAgency twoAgency : secondLevelList) {
                         username = twoAgency.getUsername();
-                        map.put("username", username);
+                        rmap.put("username", username);
                         map.put("parentagencyid", twoAgency.getAgencyid());
-                        changeTax += webVChangeRecordService.selectByMap(map) * tRate.getTworate().doubleValue() /100;
+                        changeTax += webVChangeRecordService.selectByDateMap(rmap)  * tRate.getOnerate().doubleValue() /100;
                         List<TAgency> thirdLevelList = tAgencyService.selectListByMap(map);
                         for (TAgency threeAgency : thirdLevelList) {
                             username = threeAgency.getUsername();
-                            map.put("username", username);
-                            changeTax += webVChangeRecordService.selectByMap(map) * tRate.getThreerate().doubleValue() /100;
+                            rmap.put("username", username);
+                            changeTax += webVChangeRecordService.selectByDateMap(rmap)  * tRate.getOnerate().doubleValue() /100;
                         }
                     }
                 }
-                tAgency.setChangeTax(Math.round(changeTax));
+                tAgency.setChangeTax(Math.round(allPrice+changeTax));
             }
         }
         JSONObject object = new JSONObject();

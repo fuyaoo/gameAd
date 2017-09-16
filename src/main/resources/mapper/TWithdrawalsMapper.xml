@@ -182,4 +182,10 @@
     </where>
     ORDER BY AuditingTime DESC
   </select>
+  <select id="selectAllPrice" parameterType="String" resultType="Double">
+    SELECT
+	ISNULL(SUM (Money),0)
+    from TWithdrawals
+    where Status = 1 AND UserName = #{username,jdbcType=NVARCHAR}
+  </select>
 </mapper>

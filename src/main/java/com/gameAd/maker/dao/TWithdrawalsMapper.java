@@ -25,4 +25,6 @@ public interface TWithdrawalsMapper {
     TWithdrawals selectLastByMap(Map<String, Object> map);
 
     int selectCountByMap(Map<String, Object> map);
+
+    Double selectAllPrice(String username);
 }

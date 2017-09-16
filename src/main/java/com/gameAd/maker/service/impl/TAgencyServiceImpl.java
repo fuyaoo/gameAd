@@ -67,4 +67,9 @@ public class TAgencyServiceImpl implements TAgencyService{
     public TAgency selectOneByMap(Map<String, Object> map) {
         return tAgencyMapper.selectOneByMap(map);
     }
+
+    @Override
+    public int selectRelation(Map<String, Object> map) {
+        return tAgencyMapper.selectRelation(map);
+    }
 }

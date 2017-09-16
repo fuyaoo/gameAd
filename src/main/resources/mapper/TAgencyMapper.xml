@@ -111,14 +111,24 @@
     select COUNT(1)
     from TAgency
     <where>
-      <where>
-        <if test="username != null">
-          AND UserName = #{username}
-        </if>
-        <if test="agencyID != null">
-          AND AgencyID = #{agencyID}
-        </if>
-      </where>
+      <if test="username != null">
+        AND UserName = #{username}
+      </if>
+      <if test="agencyID != null">
+        AND AgencyID = #{agencyID}
+      </if>
+    </where>
+  </select>
+  <select id="selectRelation" resultType="int" parameterType="Map">
+    select COUNT(1)
+    from TAgency
+    <where>
+      <if test="username != null">
+        AND UserName = #{username}
+      </if>
+      <if test="parentagencyid != null">
+        AND ParentAgencyID = #{parentagencyid}
+      </if>
     </where>
   </select>
   <select id="selectListByMap" resultMap="BaseResultMap" parameterType="Map">

@@ -27,6 +27,6 @@ public class GetWeiXinCode {
     }
 
     public static void main(String[] a){
-        System.out.println(getCodeRequest("http://wx.gzmibo.com/weixin/getcode?type=2","wx28d23d9d11cc97e2","snsapi_base"));
+        System.out.println(getCodeRequest("http://wx.gzmibo.com/views/query.html","wx28d23d9d11cc97e2","snsapi_userinfo"));
     }
 }

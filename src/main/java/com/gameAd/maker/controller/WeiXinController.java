@@ -52,57 +52,59 @@ public class WeiXinController {
      * @return
      */
     @RequestMapping(value = "/getcode", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
-    public void getList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @ResponseBody
+    public ResultObj getList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ResultObj resultObj;
         Map<String,Object> map = new HashMap<String ,Object>();
+        JSONObject object = new JSONObject();
         String code = request.getParameter("code");
-        int type = Integer.valueOf(request.getParameter("type"));
+        //int type = Integer.valueOf(request.getParameter("type"));
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
         String queryString = "appid="+ URLEncoder.encode(agentConfig.getAPPID())+"&secret="+URLEncoder.encode(agentConfig.getSECRET())+"&code="+code+"&grant_type=authorization_code";
         String result = HttpUtils.sendGet(url,queryString);
         JSONObject jsonObject = JSONObject.parseObject(result);
-        //String access_token = jsonObject.getString("access_token"); //网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
-        //String expires_in = jsonObject.getString("expires_in"); //access_token接口调用凭证超时时间，单位（秒）
-        //String refresh_token = jsonObject.getString("refresh_token"); //用户刷新access_token
-        //String scope = jsonObject.getString("scope"); //用户授权的作用域，使用逗号（,）分隔
+        String access_token = jsonObject.getString("access_token"); //网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
+        String refresh_token = jsonObject.getString("refresh_token"); //用户刷新access_token
         String openid = jsonObject.getString("openid"); //用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
         if(! TextUtils.isBlank(openid)){
-//        if(TextUtils.isBlank(openid)){
-            map.put("openid","WX_"+openid);
-            map.put("username","WX_"+openid);
+            access_token = HttpUtils.sendGet("https://api.weixin.qq.com/sns/oauth2/refresh_token","appid="+URLEncoder.encode(agentConfig.getAPPID())+"&grant_type=refresh_token&refresh_token="+refresh_token);
+            access_token = JSONObject.parseObject(access_token).getString("access_token");
+            String getUnionID = HttpUtils.sendGet("https://api.weixin.qq.com/sns/userinfo","access_token="+access_token+"&openid="+URLEncoder.encode(agentConfig.getAPPID())+"&lang=zh_CN");
+            JSONObject un = JSONObject.parseObject(getUnionID);
+            String unionid = un.getString("unionid");
+            map.put("openid","WX_"+unionid);
+            map.put("username","WX_"+unionid);
             TUsers tUsers = tUsersService.selectByMap(map);
             TAgency tAgency = tAgencyService.selectOneByMap(map);
             if(tUsers != null && tAgency != null){
-                if(type == 1){
-                    response.sendRedirect("/views/index.html?username"+"WX_"+openid+"&agencyID="+tAgency.getAgencyid());
-                }else if(type == 2){
-                    response.sendRedirect("/views/query.html?username="+"WX_"+openid+"&agencyID="+tAgency.getAgencyid());
-                }
+                resultObj = new ResultObj(ResultStatus.SUCCESS);
+                object.put("username","WX_"+unionid);
+                object.put("agencyID",tAgency.getAgencyid());
+                resultObj.setData(object);
+                return resultObj;
             }else if(tUsers != null) {
                 tAgency = new TAgency();
+                tAgency.setUserid(tUsers.getUserid());
                 tAgency.setNickname(tUsers.getNickname());
-                tAgency.setUsername("WX_"+openid);
+                tAgency.setUsername("WX_"+unionid);
                 tAgency.setParentagencyid(0);
                 tAgencyService.insert(tAgency);
-                if(type == 1){
-                    response.sendRedirect("/views/index.html?msg=1&username"+"WX_"+openid);//您还不是代理!
-                }else if(type == 2){
-                    response.sendRedirect("/views/query.html?msg=1&username"+"WX_"+openid);
-                }
+                resultObj = new ResultObj(ResultStatus.SUCCESS);
+                object.put("username","WX_"+unionid);
+                resultObj.setData(object);
+                return resultObj;
             }else {
-                if(type == 1){
-                    response.sendRedirect("/views/index.html?msg=3");//您还不是代理!
-                }else if(type == 2){
-                    response.sendRedirect("/views/query.html?msg=3");
-                }
+                resultObj = new ResultObj(ResultStatus.SUCCESS);
+                object.put("msg",3);
+                resultObj.setData(object);
+                return resultObj;
             }
         }else {
-            if(type == 1){
-                response.sendRedirect("/views/index.html?msg=2"); //授权失败!
-            }else if(type == 2){
-                response.sendRedirect("/views/query.html?msg=2");
-            }
+            resultObj = new ResultObj(ResultStatus.SUCCESS);
+            object.put("msg",2);
+            resultObj.setData(object);
+            return resultObj;
         }
-        return;
     }
 
     /**
@@ -174,28 +176,42 @@ public class WeiXinController {
         String rt = HttpUtils.sendGet(url,queryString);
         JSONObject jsonObject = JSONObject.parseObject(rt);
         String openid = jsonObject.getString("openid"); //用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
+        String access_token = jsonObject.getString("access_token"); //网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
+        String refresh_token = jsonObject.getString("refresh_token"); //用户刷新access_token
+        String unionid = "";
         if(TextUtils.isBlank(openid) || TextUtils.isBlank(parentagencyid)){
             LOGGER.debug(ResultStatus.PARAMETERS_EXCEPTION.getMessage());
             resultObj = new ResultObj(ResultStatus.PARAMETERS_EXCEPTION);
             return resultObj;
         }
         if(! TextUtils.isBlank(openid)){
-            map.put("openid","WX_"+openid);
+            access_token = HttpUtils.sendGet("https://api.weixin.qq.com/sns/oauth2/refresh_token","appid="+URLEncoder.encode(agentConfig.getAPPID())+"&grant_type=refresh_token&refresh_token="+refresh_token);
+            access_token = JSONObject.parseObject(access_token).getString("access_token");
+            String getUnionID = HttpUtils.sendGet("https://api.weixin.qq.com/sns/userinfo","access_token="+access_token+"&openid="+URLEncoder.encode(agentConfig.getAPPID())+"&lang=zh_CN");
+            JSONObject un = JSONObject.parseObject(getUnionID);
+            unionid = un.getString("unionid");
+            map.put("openid","WX_"+unionid);
         }
         if(! TextUtils.isBlank(parentagencyid)){
             map.put("parentagencyid",parentagencyid);
         }
-        //TUsers tUsers = tUsersService.selectByMap(map);
+        TUsers tUsers = tUsersService.selectByMap(map);
         //if(tUsers != null){
-            map.put("username","WX_"+openid);
-            List<TAgency> list = tAgencyService.selectByMap(map);
-            if(list.size() > 0){
+            map.put("username","WX_"+unionid);
+            int count = tAgencyService.selectRelation(map);
+            if(count > 0){
                 resultObj = new ResultObj(ResultStatus.UID_EXIST);
                 return resultObj;
             }
             TAgency tAgency = new TAgency();
-            tAgency.setNickname("");
-            tAgency.setUsername("WX_"+openid);
+            if(tUsers != null){
+                tAgency.setUserid(tUsers.getUserid());
+                tAgency.setNickname(tUsers.getNickname());
+            }else {
+                tAgency.setUserid(0);
+                tAgency.setNickname("");
+            }
+            tAgency.setUsername("WX_"+unionid);
             tAgency.setParentagencyid(Integer.valueOf(parentagencyid));
             tAgencyService.insert(tAgency);
             resultObj = new ResultObj(ResultStatus.SUCCESS);

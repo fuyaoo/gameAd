@@ -25,4 +25,6 @@ public interface TAgencyMapper {
     int selectCountByMap(Map<String, Object> map);
 
     TAgency selectOneByMap(Map<String, Object> map);
+
+    int selectRelation(Map<String, Object> map);
 }

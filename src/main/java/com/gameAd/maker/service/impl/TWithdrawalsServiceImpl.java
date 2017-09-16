@@ -67,4 +67,9 @@ public class TWithdrawalsServiceImpl implements TWithdrawalsService{
     public int selectCountByMap(Map<String, Object> map) {
         return tWithdrawalsMapper.selectCountByMap(map);
     }
+
+    @Override
+    public Double selectAllPrice(String username) {
+        return tWithdrawalsMapper.selectAllPrice(username);
+    }
 }

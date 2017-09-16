@@ -64,41 +64,58 @@
     </div>
     
     <script type="text/javascript">
-        var username = getQueryString("username");
-        var msg = decodeURI(getQueryString("msg"));
-        if (username !== null && username !== undefined && username !== '' && username !== 'null') {
-            generateQRcode();
-        }
-        if (msg !== null && msg !== undefined && msg !== '' && msg !== 'null') {
-            //$('.QRcodeImage').hide();
-            if(msg == 1){
-                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
-                $('.but').show();
-                $('.info').text('您还不是代理,请点击获取二维码并成为代理!');
-            }else if(msg == 2){
-                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
-                $('.info').text('授权失败!');
-            }else {
-                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
-                $('.info').text('您还不是玩家!');
-            }
-        }
-        $('.but').click(function() {
-            generateQRcode();
-        })
-        function generateQRcode() {
+        var code = getQueryString("code");
+        if(code != null){
             $.ajax({
-                type: 'POST',
-                url: 'http://39.108.6.26/weixin/generateQRcode',
+                type: 'GET',
+                url: 'http://39.108.6.26/weixin/getcode',
                 data: {
-                    username: username
+                    code: code
                 },
                 success: function (e) {
                     console.log(e)
-                    $('.QRcodeImage').attr('src', e.data)
+                    if(e.code===100){
+                        var username = e.data.username;
+                        var msg = e.data.msg;
+                        if (username !== null && username !== undefined && username !== '' && username !== 'null') {
+                            generateQRcode();
+                        }
+                        if (msg !== null && msg !== undefined && msg !== '' && msg !== 'null') {
+                            //$('.QRcodeImage').hide();
+                            if(msg == 1){
+                                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
+                                $('.but').show();
+                                $('.info').text('您还不是代理,请点击获取二维码并成为代理!');
+                            }else if(msg == 2){
+                                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
+                                $('.info').text('授权失败!');
+                            }else {
+                                $('.QRcodeImage').attr('src', 'http://39.108.6.26/img/logo.png');
+                                $('.info').text('您还不是玩家!');
+                            }
+                        }
+                        $('.but').click(function() {
+                            generateQRcode();
+                        })
+                        function generateQRcode() {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'http://39.108.6.26/weixin/generateQRcode',
+                                data: {
+                                    username: username
+                                },
+                                success: function (e) {
+                                    console.log(e)
+                                    $('.QRcodeImage').attr('src', e.data)
+                                }
+                            });
+                        }
+                    }
                 }
-            });
+            })
         }
+
+
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);
